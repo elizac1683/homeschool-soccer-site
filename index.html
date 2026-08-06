@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Homeschool Soccer LLC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pitch:#1B4332;
+    --pitch-dark:#122E22;
+    --grass:#40916C;
+    --grass-light:#95D5B2;
+    --gold:#F4A300;
+    --gold-soft:#FCE7B8;
+    --cream:#FBF8F3;
+    --paper:#FFFFFF;
+    --ink:#1D231C;
+    --ink-soft:#5C6B5D;
+    --line:#E4E0D6;
+    --red:#C1440E;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:'Inter',sans-serif;background:var(--cream);color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:'Fraunces',serif;}
+  a{color:inherit;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px;}
+
+  /* ── NAV ── */
+  nav.topnav{
+    position:sticky;top:0;z-index:50;background:var(--pitch);
+    box-shadow:0 2px 12px rgba(0,0,0,0.15);
+  }
+  nav.topnav .wrap{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;gap:16px;}
+  .nav-brand{display:flex;align-items:center;gap:10px;}
+  .nav-brand img{height:34px;width:34px;object-fit:contain;background:var(--cream);border-radius:8px;padding:2px;}
+  .nav-brand span{color:var(--cream);font-weight:700;font-family:'Fraunces',serif;font-size:16px;}
+  .nav-links{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
+  .nav-links a{
+    color:rgba(251,248,243,0.85);text-decoration:none;font-size:13.5px;font-weight:600;
+    padding:8px 12px;border-radius:8px;transition:background .15s;
+  }
+  .nav-links a:hover{background:rgba(255,255,255,0.1);color:var(--cream);}
+  .nav-links button.portal-btn{
+    background:var(--gold);color:var(--pitch-dark);border:none;padding:9px 16px;
+    border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;font-family:'Inter',sans-serif;
+  }
+  .nav-links button.portal-btn:hover{background:#e08f00;}
+
+  /* ── HERO ── */
+  header.hero{
+    background:linear-gradient(160deg,var(--pitch) 0%, var(--pitch-dark) 100%);
+    color:var(--cream);padding:64px 20px 72px;position:relative;overflow:hidden;
+  }
+  header.hero::before{
+    content:'';position:absolute;inset:0;
+    background-image:repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0 2px, transparent 2px 44px);
+  }
+  .hero-inner{max-width:720px;margin:0 auto;text-align:center;position:relative;}
+  .hero-badge{
+    display:inline-block;background:var(--grass);color:var(--cream);font-family:'JetBrains Mono',monospace;
+    font-size:11.5px;font-weight:700;letter-spacing:1px;padding:5px 14px;border-radius:99px;
+    text-transform:uppercase;margin-bottom:20px;
+  }
+  header.hero h1{font-size:2.6rem;font-weight:900;line-height:1.1;letter-spacing:-0.01em;}
+  header.hero p.sub{margin-top:16px;font-size:16px;color:rgba(251,248,243,0.82);line-height:1.6;max-width:540px;margin-left:auto;margin-right:auto;}
+  .hero-ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:30px;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;border:none;border-radius:10px;
+    padding:14px 26px;font-weight:700;font-size:14.5px;cursor:pointer;text-decoration:none;
+    font-family:'Inter',sans-serif;transition:all .15s;
+  }
+  .btn.gold{background:var(--gold);color:var(--pitch-dark);}
+  .btn.gold:hover{background:#e08f00;transform:translateY(-1px);}
+  .btn.outline{background:transparent;border:1.5px solid rgba(251,248,243,0.4);color:var(--cream);}
+  .btn.outline:hover{background:rgba(255,255,255,0.08);}
+
+  /* ── SECTIONS ── */
+  section{padding:56px 20px;}
+  section.alt{background:var(--paper);}
+  .section-head{text-align:center;max-width:560px;margin:0 auto 36px;}
+  .section-head .eyebrow{
+    font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--grass);font-weight:700;
+    text-transform:uppercase;letter-spacing:1.2px;margin-bottom:8px;
+  }
+  .section-head h2{font-size:1.8rem;font-weight:700;color:var(--pitch);}
+  .section-head p{margin-top:10px;color:var(--ink-soft);font-size:14.5px;line-height:1.6;}
+
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1000px;margin:0 auto;}
+  .info-card{
+    background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:26px 22px;text-align:center;
+  }
+  section.alt .info-card{background:var(--cream);}
+  .info-card .icon{font-size:30px;margin-bottom:10px;}
+  .info-card h3{font-size:16px;font-weight:600;color:var(--pitch);margin-bottom:8px;}
+  .info-card p{font-size:13.5px;color:var(--ink-soft);line-height:1.6;}
+
+  .pricing-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:560px;margin:0 auto;}
+  .price-card{
+    background:var(--paper);border:2px solid var(--line);border-radius:16px;padding:26px;text-align:center;
+  }
+  .price-card.featured{border-color:var(--gold);background:var(--gold-soft);}
+  .price-card .amount{font-family:'Fraunces',serif;font-weight:800;font-size:2.2rem;color:var(--pitch);}
+  .price-card .label{font-size:13px;color:var(--ink-soft);margin-top:4px;font-weight:600;}
+  .payment-note{
+    max-width:560px;margin:20px auto 0;text-align:center;font-size:13px;color:var(--ink-soft);
+    background:var(--cream);border-radius:10px;padding:14px;
+  }
+
+  .contact-grid{display:flex;justify-content:center;gap:32px;flex-wrap:wrap;text-align:center;}
+  .contact-item .icon{font-size:24px;margin-bottom:6px;}
+  .contact-item .label{font-size:12px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:0.5px;}
+  .contact-item .value{font-weight:700;color:var(--pitch);margin-top:2px;}
+
+  footer{background:var(--pitch-dark);color:rgba(251,248,243,0.65);text-align:center;padding:28px 20px;font-size:12.5px;}
+  footer strong{color:var(--cream);}
+
+  @media (max-width:720px){
+    .grid-3{grid-template-columns:1fr;}
+    .pricing-grid{grid-template-columns:1fr;}
+    header.hero h1{font-size:2rem;}
+    .nav-links{display:none;}
+  }
+
+  /* ── PORTAL MODAL (login) ── */
+  .modal-overlay{
+    display:none;position:fixed;inset:0;background:rgba(18,46,34,0.72);
+    z-index:100;align-items:center;justify-content:center;padding:20px;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal-box{
+    background:var(--paper);border-radius:18px;padding:32px;max-width:380px;width:100%;text-align:center;
+  }
+  .modal-box .icon{font-size:34px;margin-bottom:10px;}
+  .modal-box h3{font-size:18px;color:var(--pitch);margin-bottom:8px;}
+  .modal-box p{font-size:13px;color:var(--ink-soft);margin-bottom:18px;line-height:1.5;}
+  .modal-box input{
+    width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;font-size:15px;
+    text-align:center;letter-spacing:1px;
+  }
+  .modal-box input:focus{outline:none;border-color:var(--grass);}
+  .modal-box .err{color:var(--red);font-size:12.5px;margin-top:8px;display:none;}
+  .modal-box .actions{display:flex;gap:10px;margin-top:18px;}
+  .modal-box .actions button{flex:1;}
+  .btn.ghost{background:var(--cream);color:var(--ink-soft);border:1px solid var(--line);}
+
+  /* ── PORTAL (contenido protegido) ── */
+  #portal{display:none;}
+  #portal.open{display:block;}
+  section.portal-section{background:var(--pitch);color:var(--cream);}
+  section.portal-section .section-head h2{color:var(--cream);}
+  section.portal-section .section-head p{color:rgba(251,248,243,0.75);}
+  section.portal-section .section-head .eyebrow{color:var(--grass-light);}
+
+  .cal-list{max-width:640px;margin:0 auto;background:var(--paper);border-radius:16px;padding:8px 20px;}
+  .cal-item{
+    display:flex;justify-content:space-between;gap:10px;padding:11px 4px;
+    border-bottom:1px solid var(--line);font-size:13.5px;color:var(--ink);
+  }
+  .cal-item:last-child{border-bottom:none;}
+  .cal-item .fecha{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--red);white-space:nowrap;}
+  .cal-item .nombre{color:var(--ink-soft);text-align:right;}
+
+  .reportes-box{
+    max-width:640px;margin:0 auto;background:rgba(255,255,255,0.06);border:1px dashed rgba(255,255,255,0.25);
+    border-radius:16px;padding:30px;text-align:center;color:rgba(251,248,243,0.75);font-size:13.5px;line-height:1.6;
+  }
+
+  #logoutBtn{
+    position:fixed;bottom:20px;right:20px;z-index:60;background:var(--paper);color:var(--ink-soft);
+    border:1px solid var(--line);border-radius:99px;padding:10px 18px;font-size:12.5px;font-weight:600;
+    cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,0.15);display:none;
+  }
+  #logoutBtn.show{display:block;}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="topnav">
+  <div class="wrap">
+    <div class="nav-brand">
+      <img src="LOGO_Homeschool2026.jpeg" alt="Homeschool Soccer" onerror="this.style.display='none'">
+      <span>Homeschool Soccer</span>
+    </div>
+    <div class="nav-links">
+      <a href="#sobre">Sobre Nosotros</a>
+      <a href="#horario">Horario y Precios</a>
+      <a href="#contacto">Contacto</a>
+      <button class="portal-btn" onclick="abrirModal()">🔒 Portal de Familias</button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-inner">
+    <span class="hero-badge">Temporada 2026–2027</span>
+    <h1>Homeschool Soccer</h1>
+    <p class="sub">Fútbol para chicos de familias homeschool en Miramar, Florida. Un espacio para aprender, jugar y crecer en equipo — lunes y miércoles, en Miramar Regional Park.</p>
+    <div class="hero-ctas">
+      <a class="btn gold" href="https://tinyurl.com/homeschoolsocceracademia" target="_blank">⚽ Inscribite ahora</a>
+      <button class="btn outline" onclick="abrirModal()">🔒 Portal de Familias</button>
+    </div>
+  </div>
+</header>
+
+<!-- SOBRE NOSOTROS -->
+<section id="sobre">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Sobre nosotros</div>
+      <h2>Fútbol pensado para familias homeschool</h2>
+      <p>Homeschool Soccer LLC ofrece un espacio de entrenamiento y comunidad para chicos de 4 a 18 años cuyas familias educan en casa — con horarios pensados para encajar en el día de una familia homeschool.</p>
+    </div>
+    <div class="grid-3">
+      <div class="info-card">
+        <div class="icon">⚽</div>
+        <h3>Todas las edades</h3>
+        <p>Categorías desde Sub-6 hasta Sub-18, agrupadas por edad para un desarrollo acorde a cada etapa.</p>
+      </div>
+      <div class="info-card">
+        <div class="icon">👨‍👩‍👧‍👦</div>
+        <h3>Comunidad homeschool</h3>
+        <p>Un espacio pensado por y para familias que educan en casa, con horarios matutinos que no compiten con la rutina escolar tradicional.</p>
+      </div>
+      <div class="info-card">
+        <div class="icon">📍</div>
+        <h3>Miramar, FL</h3>
+        <p>Entrenamos en Miramar Regional Park — fácil acceso para familias de Miramar y ciudades cercanas de Broward County.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HORARIO Y PRECIOS -->
+<section class="alt" id="horario">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Horario y precios</div>
+      <h2>Cómo funciona la temporada</h2>
+      <p>Lunes y Miércoles, 9:30 AM – 10:30 AM · Miramar Regional Park</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card featured">
+        <div class="amount">$160</div>
+        <div class="label">Inscripción anual<br>(incluye uniforme, pago único)</div>
+      </div>
+      <div class="price-card">
+        <div class="amount">$160</div>
+        <div class="label">Mensualidad</div>
+      </div>
+    </div>
+    <div class="payment-note">💳 Pago por <b>Zelle</b> a <b>954-918-0916</b> (Homeschool Soccer LLC)</div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Contacto</div>
+      <h2>¿Tenés preguntas?</h2>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-item">
+        <div class="icon">📱</div>
+        <div class="label">WhatsApp / Teléfono</div>
+        <div class="value">954-918-0916</div>
+      </div>
+      <div class="contact-item">
+        <div class="icon">📧</div>
+        <div class="label">Email</div>
+        <div class="value">homeschoolsoccerfl@gmail.com</div>
+      </div>
+      <div class="contact-item">
+        <div class="icon">📍</div>
+        <div class="label">Ubicación</div>
+        <div class="value">Miramar Regional Park, FL</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTAL DE FAMILIAS (protegido) -->
+<div id="portal">
+  <section class="portal-section" id="calendario-familias">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Portal de familias</div>
+        <h2>Fechas sin práctica por feriado</h2>
+        <p>Temporada 3 de agosto de 2026 al 31 de mayo de 2027 — Lunes y Miércoles, salvo estas fechas:</p>
+      </div>
+      <div class="cal-list" id="feriadosPortal"></div>
+    </div>
+  </section>
+
+  <section id="reportes-familias">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Novedades</div>
+        <h2>Reportes de la academia</h2>
+      </div>
+      <div class="reportes-box">
+        Próximamente vamos a compartir acá novedades de la temporada, fotos y logros del equipo. ⚽
+      </div>
+    </div>
+  </section>
+</div>
+
+<button id="logoutBtn" onclick="cerrarPortal()">🔒 Salir del portal</button>
+
+<!-- MODAL LOGIN -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <div class="icon">🔒</div>
+    <h3>Portal de Familias</h3>
+    <p>Ingresá la contraseña que te compartió la academia para ver el calendario y las novedades.</p>
+    <input type="password" id="passwordInput" placeholder="Contraseña" autocomplete="off">
+    <div class="err" id="passwordErr">Contraseña incorrecta, probá de nuevo.</div>
+    <div class="actions">
+      <button class="btn ghost" onclick="cerrarModal()">Cancelar</button>
+      <button class="btn gold" onclick="verificarPassword()">Entrar</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <strong>Homeschool Soccer LLC</strong> · Miramar, FL · homeschoolsoccerfl@gmail.com
+</footer>
+
+<script>
+// Contraseña compartida del portal de familias — cambiala acá cuando quieras.
+const PORTAL_PASSWORD = 'cancha2026';
+
+function abrirModal(){
+  document.getElementById('modalOverlay').classList.add('open');
+  document.getElementById('passwordErr').style.display = 'none';
+  document.getElementById('passwordInput').value = '';
+  setTimeout(()=>document.getElementById('passwordInput').focus(), 100);
+}
+function cerrarModal(){
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+function verificarPassword(){
+  const val = document.getElementById('passwordInput').value;
+  if(val === PORTAL_PASSWORD){
+    cerrarModal();
+    abrirPortal();
+  } else {
+    document.getElementById('passwordErr').style.display = 'block';
+  }
+}
+document.getElementById('passwordInput').addEventListener('keydown', (e)=>{
+  if(e.key === 'Enter') verificarPassword();
+});
+
+function abrirPortal(){
+  document.getElementById('portal').classList.add('open');
+  document.getElementById('logoutBtn').classList.add('show');
+  document.getElementById('calendario-familias').scrollIntoView({behavior:'smooth'});
+}
+function cerrarPortal(){
+  document.getElementById('portal').classList.remove('open');
+  document.getElementById('logoutBtn').classList.remove('show');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// ── Feriados de la temporada (mismo calendario que la app de Asistencia) ──
+const FERIADOS = [
+  { start: new Date(2026,8,7),   end: new Date(2026,8,7),   nombre: 'Labor Day' },
+  { start: new Date(2026,8,22),  end: new Date(2026,8,23),  nombre: 'Rosh Hashaná' },
+  { start: new Date(2026,9,1),   end: new Date(2026,9,1),   nombre: 'Yom Kipur' },
+  { start: new Date(2026,9,12),  end: new Date(2026,9,12),  nombre: 'Día de planificación docente' },
+  { start: new Date(2026,10,10), end: new Date(2026,10,11), nombre: 'Día docente + Veterans Day' },
+  { start: new Date(2026,10,23), end: new Date(2026,10,27), nombre: 'Receso de Acción de Gracias' },
+  { start: new Date(2026,11,21), end: new Date(2027,0,1),   nombre: 'Receso de invierno' },
+  { start: new Date(2027,0,4),   end: new Date(2027,0,4),   nombre: 'Día de planificación docente' },
+  { start: new Date(2027,0,18),  end: new Date(2027,0,18),  nombre: 'Día de Martin Luther King Jr.' },
+  { start: new Date(2027,1,15),  end: new Date(2027,1,16),  nombre: "Presidents' Day + día docente" },
+  { start: new Date(2027,2,19),  end: new Date(2027,2,19),  nombre: 'Día de planificación docente' },
+  { start: new Date(2027,2,22),  end: new Date(2027,2,26),  nombre: 'Receso de primavera' },
+  { start: new Date(2027,4,31),  end: new Date(2027,4,31),  nombre: 'Memorial Day' },
+];
+const SEASON_START = new Date(2026,7,3);
+const SEASON_END = new Date(2027,4,31);
+
+function sameOrBetween(d,s,e){ const t=d.getTime(); return t>=s.getTime() && t<=e.getTime(); }
+function feriadoEnFecha(d){ return FERIADOS.find(f=>sameOrBetween(d,f.start,f.end)) || null; }
+function esPractica(d){ const day=d.getDay(); return day===1||day===3; }
+function fmtFecha(d){ return d.toLocaleDateString('es-AR',{weekday:'short', day:'2-digit', month:'2-digit'}); }
+
+function renderFeriadosPortal(){
+  const afectadas = [];
+  let cursor = new Date(SEASON_START);
+  while(cursor.getTime() <= SEASON_END.getTime()){
+    if(esPractica(cursor)){
+      const f = feriadoEnFecha(cursor);
+      if(f) afectadas.push({fecha:new Date(cursor), nombre:f.nombre});
+    }
+    cursor.setDate(cursor.getDate()+1);
+  }
+  document.getElementById('feriadosPortal').innerHTML = afectadas.map(a => `
+    <div class="cal-item">
+      <span class="fecha">${fmtFecha(a.fecha)}</span>
+      <span class="nombre">${a.nombre}</span>
+    </div>`).join('');
+}
+renderFeriadosPortal();
+</script>
+</body>
+</html>
