@@ -171,6 +171,11 @@
   }
 
   /* ── ZONA DE PRÁCTICA ── */
+  .jugador-selector{max-width:360px;margin:0 auto 24px;text-align:center;}
+  .jugador-selector select{
+    width:100%;padding:11px 14px;border-radius:10px;border:1.5px solid rgba(255,255,255,0.25);
+    background:var(--paper);color:var(--ink);font-family:'Inter',sans-serif;font-size:14px;
+  }
   .progreso-box{
     max-width:480px;margin:0 auto 24px;display:flex;justify-content:center;gap:28px;
     background:rgba(255,255,255,0.08);border-radius:14px;padding:16px 20px;
@@ -358,19 +363,29 @@
         <p>Trivia y desafíos para practicar en casa cuando tengan un rato libre.</p>
       </div>
 
-      <div class="progreso-box" id="progresoBox"></div>
-
-      <div class="practica-tabs">
-        <button class="practica-tab active" data-ptab="trivia" onclick="cambiarPracticaTab('trivia')">🧠 Trivia</button>
-        <button class="practica-tab" data-ptab="retos" onclick="cambiarPracticaTab('retos')">🏆 Retos</button>
+      <div class="jugador-selector" id="jugadorSelector">
+        <p style="color:rgba(251,248,243,0.85);font-size:13.5px;margin-bottom:12px;">Elegí quién sos para guardar tu progreso:</p>
+        <select id="selectJugador" class="full" style="max-width:320px;margin:0 auto;display:block;"></select>
       </div>
 
-      <div class="practica-panel active" id="ppanel-trivia">
-        <div class="trivia-card" id="triviaCard"></div>
-      </div>
+      <div id="practicaContenido" style="display:none;">
+        <div class="progreso-box" id="progresoBox"></div>
+        <p style="text-align:center;margin-bottom:16px;">
+          <a href="#" onclick="cambiarJugador();return false;" style="color:var(--gold-soft);font-size:12px;text-decoration:underline;">Cambiar jugador</a>
+        </p>
 
-      <div class="practica-panel" id="ppanel-retos">
-        <div class="retos-grid" id="retosGrid"></div>
+        <div class="practica-tabs">
+          <button class="practica-tab active" data-ptab="trivia" onclick="cambiarPracticaTab('trivia')">🧠 Trivia</button>
+          <button class="practica-tab" data-ptab="retos" onclick="cambiarPracticaTab('retos')">🏆 Retos</button>
+        </div>
+
+        <div class="practica-panel active" id="ppanel-trivia">
+          <div class="trivia-card" id="triviaCard"></div>
+        </div>
+
+        <div class="practica-panel" id="ppanel-retos">
+          <div class="retos-grid" id="retosGrid"></div>
+        </div>
       </div>
     </div>
   </section>
@@ -488,6 +503,158 @@ function renderFeriadosPortal(){
 }
 renderFeriadosPortal();
 
+// ── CONEXIÓN AL MISMO APPS SCRIPT (para el progreso de jugadores) ──
+const CONFIG = {
+  WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbxvAyHnLxNVhqkTmTQ2kXI5-VWfEUvADJkPzMfHkDwi3StdusUeYKa0zcaDtOfspPn-/exec'
+};
+
+function jsonpRequest(params, timeoutMs){
+  return new Promise((resolve, reject)=>{
+    const cbName = 'hsaSite_' + Date.now() + '_' + Math.floor(Math.random()*10000);
+    const script = document.createElement('script');
+    let settled = false;
+    const cleanup = () => {
+      delete window[cbName];
+      if(script.parentNode) script.parentNode.removeChild(script);
+      clearTimeout(timer);
+    };
+    window[cbName] = (data) => { if(settled) return; settled = true; cleanup(); resolve(data); };
+    const timer = setTimeout(()=>{
+      if(settled) return; settled = true; cleanup();
+      reject(new Error('Tiempo de espera agotado'));
+    }, timeoutMs || 20000);
+    script.onerror = () => {
+      if(settled) return; settled = true; cleanup();
+      reject(new Error('No se pudo cargar el script'));
+    };
+    const query = new URLSearchParams({...params, callback: cbName}).toString();
+    script.src = CONFIG.WEB_APP_URL + '?' + query;
+    document.body.appendChild(script);
+  });
+}
+
+function findHeaderRowIndexSite(rows){
+  for(let i=0;i<Math.min(rows.length,5);i++){
+    const first = (rows[i][0]||'').toString().trim().toLowerCase();
+    if(first === 'id') return i;
+  }
+  return 0;
+}
+
+let jugadoresList = [];
+let progresoData = {}; // { id: {puntos, retos:[...]} }
+let jugadorActual = null; // { id, nombre }
+
+function parseJugadoresSite(rows){
+  if(!rows || rows.length < 2) return [];
+  const headerIdx = findHeaderRowIndexSite(rows);
+  const headers = rows[headerIdx].map(h=>(h||'').toString().trim());
+  return rows.slice(headerIdx+1).filter(r=>r[0]).map(r=>{
+    const obj = {};
+    headers.forEach((h,i)=>{ obj[h]=r[i]; });
+    return { id:(obj['ID']||'').toString(), nombre: obj['Nombre del Jugador'] || '' };
+  });
+}
+
+function parseProgresoSite(rows){
+  const map = {};
+  if(!rows || rows.length < 2) return map;
+  for(let r=1; r<rows.length; r++){
+    const id = (rows[r][0]||'').toString();
+    if(!id) continue;
+    const puntos = parseInt(rows[r][2], 10) || 0;
+    const retosStr = (rows[r][3]||'').toString();
+    const retos = retosStr ? retosStr.split(',').map(x=>parseInt(x,10)).filter(x=>!isNaN(x)) : [];
+    map[id] = { puntos, retos };
+  }
+  return map;
+}
+
+async function cargarDatosPractica(){
+  try{
+    const data = await jsonpRequest({});
+    jugadoresList = parseJugadoresSite(data.jugadores);
+    progresoData = parseProgresoSite(data.progreso);
+    poblarSelectorJugador();
+  }catch(err){
+    document.getElementById('jugadorSelector').innerHTML = '<p style="color:rgba(251,248,243,0.8);font-size:13px;">No se pudo conectar para cargar la lista de jugadores. Probá recargar la página.</p>';
+    console.error(err);
+  }
+}
+
+function poblarSelectorJugador(){
+  const sel = document.getElementById('selectJugador');
+  const ordenados = [...jugadoresList].sort((a,b)=>a.nombre.localeCompare(b.nombre));
+  sel.innerHTML = '<option value="">Elegí tu nombre...</option>' +
+    ordenados.map(j => `<option value="${j.id}">${j.nombre}</option>`).join('');
+  sel.addEventListener('change', ()=>{
+    if(!sel.value) return;
+    const j = jugadoresList.find(x=>x.id===sel.value);
+    if(j) seleccionarJugador(j);
+  });
+
+  const guardadoId = localStorage.getItem('hsa_jugador_actual_id');
+  if(guardadoId){
+    const j = jugadoresList.find(x=>x.id===guardadoId);
+    if(j) seleccionarJugador(j);
+  }
+}
+
+function seleccionarJugador(j){
+  jugadorActual = j;
+  localStorage.setItem('hsa_jugador_actual_id', j.id);
+  document.getElementById('jugadorSelector').style.display = 'none';
+  document.getElementById('practicaContenido').style.display = 'block';
+  renderProgreso();
+  triviaOrden = [];
+  triviaIdx = 0;
+  renderTrivia();
+  renderRetos();
+}
+
+function cambiarJugador(){
+  jugadorActual = null;
+  localStorage.removeItem('hsa_jugador_actual_id');
+  document.getElementById('jugadorSelector').style.display = 'block';
+  document.getElementById('practicaContenido').style.display = 'none';
+  document.getElementById('selectJugador').value = '';
+}
+
+function getMiProgreso(){
+  if(!jugadorActual) return {puntos:0, retos:[]};
+  return progresoData[jugadorActual.id] || {puntos:0, retos:[]};
+}
+
+async function guardarMiProgreso(){
+  if(!jugadorActual) return;
+  const p = getMiProgreso();
+  try{
+    await jsonpRequest({
+      action:'saveProgreso',
+      id: jugadorActual.id,
+      nombre: jugadorActual.nombre,
+      puntos: p.puntos,
+      retos: p.retos.join(',')
+    });
+  }catch(err){
+    console.error('No se pudo guardar el progreso en el Sheet (queda igual localmente):', err);
+  }
+}
+
+function renderProgreso(){
+  const p = getMiProgreso();
+  document.getElementById('progresoBox').innerHTML = `
+    <div class="progreso-item"><div class="num">${p.puntos}</div><div class="lbl">Puntos de trivia</div></div>
+    <div class="progreso-item"><div class="num">${p.retos.length}</div><div class="lbl">Retos completados</div></div>
+  `;
+}
+
+function cambiarPracticaTab(tab){
+  document.querySelectorAll('.practica-tab').forEach(b=>b.classList.toggle('active', b.dataset.ptab===tab));
+  document.querySelectorAll('.practica-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('ppanel-'+tab).classList.add('active');
+}
+
 // ── ZONA DE PRÁCTICA ──
 const TRIVIA = [
   { pregunta:'¿Cuántos jugadores de campo (sin contar al arquero) tiene cada equipo en la cancha?', opciones:['9','10','11','8'], correcta:1, categoria:'Reglas', explicacion:'Cada equipo juega con 10 jugadores de campo más el arquero, 11 en total.' },
@@ -519,31 +686,6 @@ function shuffle(arr){
   return a;
 }
 
-function getProgreso(){
-  try{
-    return JSON.parse(localStorage.getItem('hsa_progreso') || '{"puntos":0,"retos":[]}');
-  }catch(e){
-    return {puntos:0, retos:[]};
-  }
-}
-function guardarProgreso(p){
-  localStorage.setItem('hsa_progreso', JSON.stringify(p));
-}
-
-function renderProgreso(){
-  const p = getProgreso();
-  document.getElementById('progresoBox').innerHTML = `
-    <div class="progreso-item"><div class="num">${p.puntos}</div><div class="lbl">Puntos de trivia</div></div>
-    <div class="progreso-item"><div class="num">${p.retos.length}</div><div class="lbl">Retos completados</div></div>
-  `;
-}
-
-function cambiarPracticaTab(tab){
-  document.querySelectorAll('.practica-tab').forEach(b=>b.classList.toggle('active', b.dataset.ptab===tab));
-  document.querySelectorAll('.practica-panel').forEach(p=>p.classList.remove('active'));
-  document.getElementById('ppanel-'+tab).classList.add('active');
-}
-
 function renderTrivia(){
   if(triviaOrden.length === 0) triviaOrden = shuffle(TRIVIA.map((_,i)=>i));
   if(triviaIdx >= triviaOrden.length) triviaIdx = 0;
@@ -572,10 +714,12 @@ function responderTrivia(i){
   fb.classList.add('show');
   if(i === q.correcta){
     fb.textContent = '✅ ¡Correcto! ' + q.explicacion;
-    const p = getProgreso();
-    p.puntos += 10;
-    guardarProgreso(p);
-    renderProgreso();
+    if(jugadorActual){
+      if(!progresoData[jugadorActual.id]) progresoData[jugadorActual.id] = {puntos:0, retos:[]};
+      progresoData[jugadorActual.id].puntos += 10;
+      renderProgreso();
+      guardarMiProgreso();
+    }
   } else {
     fb.textContent = '❌ La respuesta correcta era "' + q.opciones[q.correcta] + '". ' + q.explicacion;
   }
@@ -599,7 +743,7 @@ const RETOS = [
 ];
 
 function renderRetos(){
-  const p = getProgreso();
+  const p = getMiProgreso();
   document.getElementById('retosGrid').innerHTML = RETOS.map((r,i)=>{
     const done = p.retos.includes(i);
     return `
@@ -613,17 +757,17 @@ function renderRetos(){
 }
 
 function toggleReto(i){
-  const p = getProgreso();
+  if(!jugadorActual) return;
+  if(!progresoData[jugadorActual.id]) progresoData[jugadorActual.id] = {puntos:0, retos:[]};
+  const p = progresoData[jugadorActual.id];
   if(p.retos.includes(i)) p.retos = p.retos.filter(x=>x!==i);
   else p.retos.push(i);
-  guardarProgreso(p);
   renderProgreso();
   renderRetos();
+  guardarMiProgreso();
 }
 
-renderProgreso();
-renderTrivia();
-renderRetos();
+cargarDatosPractica();
 </script>
 </body>
 </html>
