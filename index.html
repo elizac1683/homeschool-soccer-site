@@ -170,6 +170,57 @@
     border-radius:16px;padding:30px;text-align:center;color:rgba(251,248,243,0.75);font-size:13.5px;line-height:1.6;
   }
 
+  /* ── ZONA DE PRÁCTICA ── */
+  .progreso-box{
+    max-width:480px;margin:0 auto 24px;display:flex;justify-content:center;gap:28px;
+    background:rgba(255,255,255,0.08);border-radius:14px;padding:16px 20px;
+  }
+  .progreso-item{text-align:center;}
+  .progreso-item .num{font-family:'Fraunces',serif;font-weight:800;font-size:1.6rem;color:var(--gold);}
+  .progreso-item .lbl{font-size:11px;color:rgba(251,248,243,0.7);text-transform:uppercase;letter-spacing:0.5px;margin-top:2px;}
+
+  .practica-tabs{display:flex;justify-content:center;gap:8px;margin-bottom:22px;}
+  .practica-tab{
+    background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.2);color:rgba(251,248,243,0.8);
+    padding:9px 18px;border-radius:99px;font-weight:600;font-size:13px;cursor:pointer;font-family:'Inter',sans-serif;
+  }
+  .practica-tab.active{background:var(--gold);border-color:var(--gold);color:var(--pitch-dark);}
+
+  .practica-panel{display:none;max-width:560px;margin:0 auto;}
+  .practica-panel.active{display:block;}
+
+  .trivia-card{background:var(--paper);border-radius:18px;padding:28px;color:var(--ink);}
+  .trivia-card .cat-tag{
+    display:inline-block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;
+    background:var(--gold-soft);color:#8A5A00;padding:4px 10px;border-radius:99px;margin-bottom:12px;
+  }
+  .trivia-card h3{font-size:16.5px;font-weight:600;line-height:1.4;margin-bottom:18px;}
+  .trivia-opciones{display:flex;flex-direction:column;gap:9px;}
+  .trivia-opcion{
+    text-align:left;border:1.5px solid var(--line);background:var(--cream);border-radius:10px;
+    padding:12px 14px;font-size:13.5px;cursor:pointer;font-family:'Inter',sans-serif;color:var(--ink);
+    transition:all .12s;
+  }
+  .trivia-opcion:hover{border-color:var(--grass);}
+  .trivia-opcion.correcta{background:#DFF3E8;border-color:#1B7A43;color:#1B7A43;font-weight:700;}
+  .trivia-opcion.incorrecta{background:var(--red-soft,#F7DCD3);border-color:var(--red,#C1440E);color:var(--red,#C1440E);}
+  .trivia-opcion:disabled{cursor:default;}
+  .trivia-feedback{margin-top:14px;font-size:13px;color:var(--ink-soft);line-height:1.5;padding:12px;background:var(--cream);border-radius:10px;display:none;}
+  .trivia-feedback.show{display:block;}
+  .trivia-nav{display:flex;justify-content:flex-end;margin-top:16px;}
+
+  .retos-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .reto-card{
+    background:var(--paper);border-radius:14px;padding:18px;color:var(--ink);cursor:pointer;
+    border:2px solid transparent;transition:all .15s;
+  }
+  .reto-card.done{border-color:var(--grass);background:#F0F9F0;}
+  .reto-card .reto-icon{font-size:22px;}
+  .reto-card h4{font-size:13.5px;font-weight:700;margin:8px 0 4px;}
+  .reto-card p{font-size:12px;color:var(--ink-soft);line-height:1.45;}
+  .reto-card .reto-check{margin-top:10px;font-size:12px;font-weight:700;color:var(--grass);}
+  @media (max-width:560px){.retos-grid{grid-template-columns:1fr;}}
+
   #logoutBtn{
     position:fixed;bottom:20px;right:20px;z-index:60;background:var(--paper);color:var(--ink-soft);
     border:1px solid var(--line);border-radius:99px;padding:10px 18px;font-size:12.5px;font-weight:600;
@@ -299,6 +350,31 @@
     </div>
   </section>
 
+  <section class="portal-section" id="practica-familias">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Para los jugadores</div>
+        <h2>⚽ Zona de Práctica</h2>
+        <p>Trivia y desafíos para practicar en casa cuando tengan un rato libre.</p>
+      </div>
+
+      <div class="progreso-box" id="progresoBox"></div>
+
+      <div class="practica-tabs">
+        <button class="practica-tab active" data-ptab="trivia" onclick="cambiarPracticaTab('trivia')">🧠 Trivia</button>
+        <button class="practica-tab" data-ptab="retos" onclick="cambiarPracticaTab('retos')">🏆 Retos</button>
+      </div>
+
+      <div class="practica-panel active" id="ppanel-trivia">
+        <div class="trivia-card" id="triviaCard"></div>
+      </div>
+
+      <div class="practica-panel" id="ppanel-retos">
+        <div class="retos-grid" id="retosGrid"></div>
+      </div>
+    </div>
+  </section>
+
   <section id="reportes-familias">
     <div class="wrap">
       <div class="section-head">
@@ -411,7 +487,143 @@ function renderFeriadosPortal(){
     </div>`).join('');
 }
 renderFeriadosPortal();
+
+// ── ZONA DE PRÁCTICA ──
+const TRIVIA = [
+  { pregunta:'¿Cuántos jugadores de campo (sin contar al arquero) tiene cada equipo en la cancha?', opciones:['9','10','11','8'], correcta:1, categoria:'Reglas', explicacion:'Cada equipo juega con 10 jugadores de campo más el arquero, 11 en total.' },
+  { pregunta:'¿Qué pasa si la pelota sale por completo por la línea de fondo, tocada última vez por el equipo defensor?', opciones:['Saque de esquina (córner)', 'Saque de arco', 'Lateral', 'Penal'], correcta:0, categoria:'Reglas', explicacion:'Si el último en tocarla fue el equipo que defiende esa línea, es córner para el equipo atacante.' },
+  { pregunta:'¿Cuánto dura un tiempo en un partido profesional de fútbol?', opciones:['30 minutos', '35 minutos', '45 minutos', '60 minutos'], correcta:2, categoria:'Reglas', explicacion:'Cada tiempo dura 45 minutos, con un entretiempo de descanso entre ambos.' },
+  { pregunta:'¿Cuál es la única posición que puede usar las manos dentro del área propia?', opciones:['Defensor central', 'Arquero', 'Lateral', 'Ninguna'], correcta:1, categoria:'Posiciones', explicacion:'El arquero es el único que puede usar las manos, y solo dentro de su propia área.' },
+  { pregunta:'¿Cómo se llama la posición que juega más cerca del arco rival, buscando marcar goles?', opciones:['Defensor', 'Mediocampista', 'Delantero', 'Lateral'], correcta:2, categoria:'Posiciones', explicacion:'El delantero (o "9") es quien juega más adelantado, buscando definir jugadas.' },
+  { pregunta:'¿Qué jugador conecta la defensa con el ataque, jugando en el medio de la cancha?', opciones:['Arquero', 'Mediocampista', 'Delantero', 'Líbero'], correcta:1, categoria:'Posiciones', explicacion:'El mediocampista recupera pelotas y arma el juego entre defensa y ataque.' },
+  { pregunta:'¿Qué significa "estar en fuera de juego" (offside)?', opciones:['Salir de la cancha sin permiso', 'Estar más adelantado que el último defensor al recibir el pase', 'Tocar la pelota con la mano', 'Hacer un pase muy largo'], correcta:1, categoria:'Táctica', explicacion:'Un jugador está offside si recibe el balón estando más cerca del arco rival que el penúltimo defensor.' },
+  { pregunta:'¿Qué es una "pared" en fútbol?', opciones:['Un tipo de arco', 'Un pase entre dos jugadores para superar a un rival', 'Una falta táctica', 'Una barrera en un tiro libre'], correcta:1, categoria:'Táctica', explicacion:'La pared (o "uno-dos") es cuando un jugador pasa la pelota a un compañero y la recibe de nuevo, sorteando a un rival.' },
+  { pregunta:'¿Qué formación se caracteriza por tener 4 defensores, 4 mediocampistas y 2 delanteros?', opciones:['4-3-3', '4-4-2', '3-5-2', '5-3-2'], correcta:1, categoria:'Táctica', explicacion:'La 4-4-2 es una de las formaciones clásicas más usadas en el fútbol.' },
+  { pregunta:'¿Con qué parte del cuerpo NO se puede tocar la pelota intencionalmente (salvo el arquero)?', opciones:['El pie', 'La cabeza', 'La mano', 'El pecho'], correcta:2, categoria:'Reglas', explicacion:'Tocar la pelota con la mano intencionalmente es falta, salvo para el arquero dentro de su área.' },
+  { pregunta:'¿Qué tarjeta significa que un jugador queda expulsado del partido?', opciones:['Amarilla', 'Roja', 'Verde', 'Azul'], correcta:1, categoria:'Reglas', explicacion:'La tarjeta roja expulsa al jugador; su equipo sigue el partido con uno menos.' },
+  { pregunta:'¿Cómo se llama el jugador que organiza la defensa y suele ser el más alto del equipo?', opciones:['Lateral', 'Defensor central', 'Volante ofensivo', 'Extremo'], correcta:1, categoria:'Posiciones', explicacion:'El defensor central lidera la línea defensiva y suele destacarse en el juego aéreo.' },
+  { pregunta:'¿Qué significa "presión alta" en el fútbol?', opciones:['Patear muy fuerte al arco', 'Presionar al rival cerca de su propio arco para recuperar la pelota', 'Jugar solo en defensa', 'Hacer muchos cambios en el partido'], correcta:1, categoria:'Táctica', explicacion:'La presión alta busca recuperar la pelota rápido, incomodando al rival cerca de su arco.' },
+  { pregunta:'¿Qué jugadores suelen ubicarse por las bandas (costados) de la cancha?', opciones:['Extremos/laterales', 'Arqueros', 'Defensores centrales', 'Ninguno'], correcta:0, categoria:'Posiciones', explicacion:'Los extremos y laterales juegan por las bandas, aportando ancho al equipo.' },
+  { pregunta:'¿Qué distancia mínima deben guardar los rivales en una barrera de tiro libre?', opciones:['3 metros', '5 metros', '9.15 metros', '15 metros'], correcta:2, categoria:'Reglas', explicacion:'La barrera debe estar a 9.15 metros (10 yardas) del balón en los tiros libres.' },
+];
+
+let triviaIdx = 0;
+let triviaOrden = [];
+
+function shuffle(arr){
+  const a = [...arr];
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+function getProgreso(){
+  try{
+    return JSON.parse(localStorage.getItem('hsa_progreso') || '{"puntos":0,"retos":[]}');
+  }catch(e){
+    return {puntos:0, retos:[]};
+  }
+}
+function guardarProgreso(p){
+  localStorage.setItem('hsa_progreso', JSON.stringify(p));
+}
+
+function renderProgreso(){
+  const p = getProgreso();
+  document.getElementById('progresoBox').innerHTML = `
+    <div class="progreso-item"><div class="num">${p.puntos}</div><div class="lbl">Puntos de trivia</div></div>
+    <div class="progreso-item"><div class="num">${p.retos.length}</div><div class="lbl">Retos completados</div></div>
+  `;
+}
+
+function cambiarPracticaTab(tab){
+  document.querySelectorAll('.practica-tab').forEach(b=>b.classList.toggle('active', b.dataset.ptab===tab));
+  document.querySelectorAll('.practica-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('ppanel-'+tab).classList.add('active');
+}
+
+function renderTrivia(){
+  if(triviaOrden.length === 0) triviaOrden = shuffle(TRIVIA.map((_,i)=>i));
+  if(triviaIdx >= triviaOrden.length) triviaIdx = 0;
+  const q = TRIVIA[triviaOrden[triviaIdx]];
+  const card = document.getElementById('triviaCard');
+  card.innerHTML = `
+    <span class="cat-tag">${q.categoria}</span>
+    <h3>${q.pregunta}</h3>
+    <div class="trivia-opciones">
+      ${q.opciones.map((op,i)=>`<button class="trivia-opcion" onclick="responderTrivia(${i})">${op}</button>`).join('')}
+    </div>
+    <div class="trivia-feedback" id="triviaFeedback"></div>
+    <div class="trivia-nav"><button class="btn gold" id="btnSiguienteTrivia" style="display:none;" onclick="siguienteTrivia()">Siguiente →</button></div>
+  `;
+}
+
+function responderTrivia(i){
+  const q = TRIVIA[triviaOrden[triviaIdx]];
+  const botones = document.querySelectorAll('.trivia-opcion');
+  botones.forEach((b,idx)=>{
+    b.disabled = true;
+    if(idx === q.correcta) b.classList.add('correcta');
+    else if(idx === i) b.classList.add('incorrecta');
+  });
+  const fb = document.getElementById('triviaFeedback');
+  fb.classList.add('show');
+  if(i === q.correcta){
+    fb.textContent = '✅ ¡Correcto! ' + q.explicacion;
+    const p = getProgreso();
+    p.puntos += 10;
+    guardarProgreso(p);
+    renderProgreso();
+  } else {
+    fb.textContent = '❌ La respuesta correcta era "' + q.opciones[q.correcta] + '". ' + q.explicacion;
+  }
+  document.getElementById('btnSiguienteTrivia').style.display = 'inline-flex';
+}
+
+function siguienteTrivia(){
+  triviaIdx++;
+  renderTrivia();
+}
+
+const RETOS = [
+  { icon:'⚽', titulo:'10 toques seguidos', desc:'Hacé jueguito con la pelota — 10 toques seguidos sin que caiga al piso.' },
+  { icon:'🎯', titulo:'5 conos en 15 segundos', desc:'Armá 5 conos (o botellas) en fila y driblealos lo más rápido posible.' },
+  { icon:'🏃', titulo:'Carrera con pelota', desc:'Conducí la pelota corriendo 20 metros ida y vuelta, sin perder el control.' },
+  { icon:'🥅', titulo:'10 tiros al arco', desc:'Practicá 10 remates al arco (o a un objetivo marcado en una pared).' },
+  { icon:'👟', titulo:'Pase con las dos piernas', desc:'Practicá pases contra una pared, alternando pierna derecha e izquierda.' },
+  { icon:'🔄', titulo:'Giros con pelota', desc:'Practicá 5 giros distintos (con la planta, taco, etc.) sin perder el control.' },
+  { icon:'🧠', titulo:'Mirá un partido y contá pases', desc:'Mirá 10 minutos de un partido y contá cuántos pases seguidos hace un equipo.' },
+  { icon:'🤸', titulo:'Cabezazos suaves', desc:'Practicá 10 cabezazos suaves con alguien que te tire la pelota con la mano.' },
+];
+
+function renderRetos(){
+  const p = getProgreso();
+  document.getElementById('retosGrid').innerHTML = RETOS.map((r,i)=>{
+    const done = p.retos.includes(i);
+    return `
+    <div class="reto-card ${done?'done':''}" onclick="toggleReto(${i})">
+      <div class="reto-icon">${r.icon}</div>
+      <h4>${r.titulo}</h4>
+      <p>${r.desc}</p>
+      <div class="reto-check">${done ? '✔ Completado' : 'Tocar para marcar'}</div>
+    </div>`;
+  }).join('');
+}
+
+function toggleReto(i){
+  const p = getProgreso();
+  if(p.retos.includes(i)) p.retos = p.retos.filter(x=>x!==i);
+  else p.retos.push(i);
+  guardarProgreso(p);
+  renderProgreso();
+  renderRetos();
+}
+
+renderProgreso();
+renderTrivia();
+renderRetos();
 </script>
 </body>
 </html>
- 
