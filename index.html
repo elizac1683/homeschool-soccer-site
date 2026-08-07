@@ -533,47 +533,29 @@ function jsonpRequest(params, timeoutMs){
   });
 }
 
-function findHeaderRowIndexSite(rows){
-  for(let i=0;i<Math.min(rows.length,5);i++){
-    const first = (rows[i][0]||'').toString().trim().toLowerCase();
-    if(first === 'id') return i;
-  }
-  return 0;
-}
-
 let jugadoresList = [];
 let progresoData = {}; // { id: {puntos, retos:[...]} }
 let jugadorActual = null; // { id, nombre }
 
-function parseJugadoresSite(rows){
-  if(!rows || rows.length < 2) return [];
-  const headerIdx = findHeaderRowIndexSite(rows);
-  const headers = rows[headerIdx].map(h=>(h||'').toString().trim());
-  return rows.slice(headerIdx+1).filter(r=>r[0]).map(r=>{
-    const obj = {};
-    headers.forEach((h,i)=>{ obj[h]=r[i]; });
-    return { id:(obj['ID']||'').toString(), nombre: obj['Nombre del Jugador'] || '' };
-  });
-}
-
 function parseProgresoSite(rows){
+  // 'rows' acá ya viene como array de objetos {id, puntos, retos} desde el
+  // endpoint público minimalista, no como matriz cruda del Sheet.
   const map = {};
-  if(!rows || rows.length < 2) return map;
-  for(let r=1; r<rows.length; r++){
-    const id = (rows[r][0]||'').toString();
-    if(!id) continue;
-    const puntos = parseInt(rows[r][2], 10) || 0;
-    const retosStr = (rows[r][3]||'').toString();
+  if(!rows) return map;
+  rows.forEach(row => {
+    const retosStr = (row.retos||'').toString();
     const retos = retosStr ? retosStr.split(',').map(x=>parseInt(x,10)).filter(x=>!isNaN(x)) : [];
-    map[id] = { puntos, retos };
-  }
+    map[row.id] = { puntos: parseInt(row.puntos,10) || 0, retos };
+  });
   return map;
 }
 
 async function cargarDatosPractica(){
   try{
-    const data = await jsonpRequest({});
-    jugadoresList = parseJugadoresSite(data.jugadores);
+    // Endpoint separado y minimalista — nunca trae teléfonos, emails,
+    // direcciones ni datos médicos, solo lo necesario para este selector.
+    const data = await jsonpRequest({ action: 'getDatosPracticaPublico' });
+    jugadoresList = data.jugadores || [];
     progresoData = parseProgresoSite(data.progreso);
     poblarSelectorJugador();
   }catch(err){
