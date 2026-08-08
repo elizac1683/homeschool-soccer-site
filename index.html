@@ -371,6 +371,13 @@
       <div class="jugador-selector" id="jugadorSelector">
         <p style="color:rgba(251,248,243,0.85);font-size:13.5px;margin-bottom:12px;" data-i18n="elegirJugador">Elegí quién sos para guardar tu progreso:</p>
         <select id="selectJugador" class="full" style="max-width:320px;margin:0 auto;display:block;"></select>
+
+        <div id="pinWrap" style="display:none;max-width:320px;margin:14px auto 0;">
+          <p style="color:rgba(251,248,243,0.85);font-size:12.5px;margin-bottom:8px;" data-i18n="pedirCodigo">Ingresá el código de 4 dígitos de este jugador (lo mandamos por mail al inscribirse):</p>
+          <input type="text" id="pinInput" class="full" maxlength="4" inputmode="numeric" style="text-align:center;letter-spacing:4px;font-weight:700;">
+          <div id="pinErr" style="color:#F7C9C9;font-size:12px;margin-top:6px;display:none;" data-i18n="codigoIncorrecto">Código incorrecto, probá de nuevo.</div>
+          <button class="btn gold" style="margin-top:10px;width:100%;justify-content:center;" onclick="confirmarPin()" data-i18n="confirmarCodigo">Confirmar</button>
+        </div>
       </div>
 
       <div id="practicaContenido" style="display:none;">
@@ -455,6 +462,8 @@ const translations = {
     practicaEyebrow:'Para los jugadores', practicaH2:'⚽ Zona de Práctica', practicaP:'Trivia y desafíos para practicar en casa cuando tengan un rato libre.',
     elegirJugador:'Elegí quién sos para guardar tu progreso:', elegirNombre:'Elegí tu nombre...',
     cambiarJugador:'Cambiar jugador', tabTrivia:'Trivia', tabRetos:'Retos',
+    pedirCodigo:'Ingresá el código de 4 dígitos de este jugador (lo mandamos por mail al inscribirse):',
+    codigoIncorrecto:'Código incorrecto, probá de nuevo.', confirmarCodigo:'Confirmar',
     puntosLbl:'Puntos de trivia', retosLbl:'Retos completados',
     retoHecho:'✔ Completado', retoTocar:'Tocar para marcar',
     siguienteTrivia:'Siguiente →',
@@ -483,6 +492,8 @@ const translations = {
     practicaEyebrow:'For players', practicaH2:'⚽ Practice Zone', practicaP:'Trivia and challenges to practice at home in your free time.',
     elegirJugador:'Choose who you are to save your progress:', elegirNombre:'Choose your name...',
     cambiarJugador:'Switch player', tabTrivia:'Trivia', tabRetos:'Challenges',
+    pedirCodigo:"Enter this player's 4-digit code (we emailed it when they registered):",
+    codigoIncorrecto:'Incorrect code, try again.', confirmarCodigo:'Confirm',
     puntosLbl:'Trivia points', retosLbl:'Challenges completed',
     retoHecho:'✔ Completed', retoTocar:'Tap to mark',
     siguienteTrivia:'Next →',
@@ -654,27 +665,45 @@ async function cargarDatosPractica(){
   }
 }
 
+let jugadorPendiente = null;
+
 function poblarSelectorJugador(){
   const sel = document.getElementById('selectJugador');
   const ordenados = [...jugadoresList].sort((a,b)=>a.nombre.localeCompare(b.nombre));
   sel.innerHTML = '<option value="">' + translations[currentLang].elegirNombre + '</option>' +
     ordenados.map(j => `<option value="${j.id}">${j.nombre}</option>`).join('');
   sel.addEventListener('change', ()=>{
-    if(!sel.value) return;
+    if(!sel.value) { document.getElementById('pinWrap').style.display='none'; return; }
     const j = jugadoresList.find(x=>x.id===sel.value);
-    if(j) seleccionarJugador(j);
+    if(j){
+      jugadorPendiente = j;
+      document.getElementById('pinInput').value = '';
+      document.getElementById('pinErr').style.display = 'none';
+      document.getElementById('pinWrap').style.display = 'block';
+      document.getElementById('pinInput').focus();
+    }
+  });
+  document.getElementById('pinInput').addEventListener('keydown', (e)=>{
+    if(e.key === 'Enter') confirmarPin();
   });
 
-  const guardadoId = localStorage.getItem('hsa_jugador_actual_id');
-  if(guardadoId){
-    const j = jugadoresList.find(x=>x.id===guardadoId);
-    if(j) seleccionarJugador(j);
+  // Ya no auto-selecciona por localStorage — el código sigue siendo obligatorio
+  // cada vez, así un dispositivo compartido no queda "abierto" para cualquiera.
+}
+
+function confirmarPin(){
+  if(!jugadorPendiente) return;
+  const val = document.getElementById('pinInput').value.trim();
+  const codigoReal = jugadorPendiente.id.slice(-4);
+  if(val === codigoReal){
+    seleccionarJugador(jugadorPendiente);
+  } else {
+    document.getElementById('pinErr').style.display = 'block';
   }
 }
 
 function seleccionarJugador(j){
   jugadorActual = j;
-  localStorage.setItem('hsa_jugador_actual_id', j.id);
   document.getElementById('jugadorSelector').style.display = 'none';
   document.getElementById('practicaContenido').style.display = 'block';
   renderProgreso();
@@ -686,10 +715,11 @@ function seleccionarJugador(j){
 
 function cambiarJugador(){
   jugadorActual = null;
-  localStorage.removeItem('hsa_jugador_actual_id');
+  jugadorPendiente = null;
   document.getElementById('jugadorSelector').style.display = 'block';
   document.getElementById('practicaContenido').style.display = 'none';
   document.getElementById('selectJugador').value = '';
+  document.getElementById('pinWrap').style.display = 'none';
 }
 
 function getMiProgreso(){
