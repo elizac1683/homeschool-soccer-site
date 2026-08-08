@@ -8,12 +8,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --pitch:#1B4332;
-    --pitch-dark:#122E22;
-    --grass:#40916C;
-    --grass-light:#95D5B2;
-    --gold:#F4A300;
-    --gold-soft:#FCE7B8;
+    --pitch:#2E6DA0;
+    --pitch-dark:#1F4E78;
+    --grass:#6D9952;
+    --grass-light:#A9C79A;
+    --gold:#5E9E44;
+    --gold-soft:#E3EEDD;
     --cream:#FBF8F3;
     --paper:#FFFFFF;
     --ink:#1D231C;
@@ -49,7 +49,12 @@
     background:var(--gold);color:var(--pitch-dark);border:none;padding:9px 16px;
     border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;font-family:'Inter',sans-serif;
   }
-  .nav-links button.portal-btn:hover{background:#e08f00;}
+  .nav-links button.portal-btn:hover{background:#4C8038;}
+  .nav-links button.lang-toggle{
+    background:rgba(255,255,255,0.14);border:1.5px solid rgba(255,255,255,0.35);color:var(--cream);
+    padding:8px 12px;border-radius:8px;font-weight:700;font-size:12.5px;cursor:pointer;font-family:'Inter',sans-serif;
+  }
+  .nav-links button.lang-toggle:hover{background:rgba(255,255,255,0.24);}
 
   /* ── HERO ── */
   header.hero{
@@ -75,7 +80,7 @@
     font-family:'Inter',sans-serif;transition:all .15s;
   }
   .btn.gold{background:var(--gold);color:var(--pitch-dark);}
-  .btn.gold:hover{background:#e08f00;transform:translateY(-1px);}
+  .btn.gold:hover{background:#4C8038;transform:translateY(-1px);}
   .btn.outline{background:transparent;border:1.5px solid rgba(251,248,243,0.4);color:var(--cream);}
   .btn.outline:hover{background:rgba(255,255,255,0.08);}
 
@@ -244,10 +249,11 @@
       <span>Homeschool Soccer</span>
     </div>
     <div class="nav-links">
-      <a href="#sobre">Sobre Nosotros</a>
-      <a href="#horario">Horario y Precios</a>
-      <a href="#contacto">Contacto</a>
-      <button class="portal-btn" onclick="abrirModal()">🔒 Portal de Familias</button>
+      <a href="#sobre" data-i18n="navSobre">Sobre Nosotros</a>
+      <a href="#horario" data-i18n="navHorario">Horario y Precios</a>
+      <a href="#contacto" data-i18n="navContacto">Contacto</a>
+      <button class="portal-btn" onclick="abrirModal()">🔒 <span data-i18n="navPortal">Portal de Familias</span></button>
+      <button class="lang-toggle" onclick="toggleLang()">🌐 <span id="langBtnText">EN</span></button>
     </div>
   </div>
 </nav>
@@ -255,12 +261,12 @@
 <!-- HERO -->
 <header class="hero">
   <div class="hero-inner">
-    <span class="hero-badge">Temporada 2026–2027</span>
+    <span class="hero-badge" data-i18n="heroBadge">Temporada 2026–2027</span>
     <h1>Homeschool Soccer</h1>
-    <p class="sub">Fútbol para chicos de familias homeschool en Miramar, Florida. Un espacio para aprender, jugar y crecer en equipo — lunes y miércoles, en Miramar Regional Park.</p>
+    <p class="sub" data-i18n="heroSub">Fútbol para chicos de familias homeschool en Miramar, Florida. Un espacio para aprender, jugar y crecer en equipo — lunes y miércoles, en Miramar Regional Park.</p>
     <div class="hero-ctas">
-      <a class="btn gold" href="https://tinyurl.com/homeschoolsocceracademia" target="_blank">⚽ Inscribite ahora</a>
-      <button class="btn outline" onclick="abrirModal()">🔒 Portal de Familias</button>
+      <a class="btn gold" href="https://tinyurl.com/homeschoolsocceracademia" target="_blank">⚽ <span data-i18n="heroCta1">Inscribite ahora</span></a>
+      <button class="btn outline" onclick="abrirModal()">🔒 <span data-i18n="navPortal">Portal de Familias</span></button>
     </div>
   </div>
 </header>
@@ -269,25 +275,25 @@
 <section id="sobre">
   <div class="wrap">
     <div class="section-head">
-      <div class="eyebrow">Sobre nosotros</div>
-      <h2>Fútbol pensado para familias homeschool</h2>
-      <p>Homeschool Soccer LLC ofrece un espacio de entrenamiento y comunidad para chicos de 4 a 18 años cuyas familias educan en casa — con horarios pensados para encajar en el día de una familia homeschool.</p>
+      <div class="eyebrow" data-i18n="sobreEyebrow">Sobre nosotros</div>
+      <h2 data-i18n="sobreH2">Fútbol pensado para familias homeschool</h2>
+      <p data-i18n="sobreP">Homeschool Soccer LLC ofrece un espacio de entrenamiento y comunidad para chicos de 4 a 18 años cuyas familias educan en casa — con horarios pensados para encajar en el día de una familia homeschool.</p>
     </div>
     <div class="grid-3">
       <div class="info-card">
         <div class="icon">⚽</div>
-        <h3>Todas las edades</h3>
-        <p>Categorías desde Sub-6 hasta Sub-18, agrupadas por edad para un desarrollo acorde a cada etapa.</p>
+        <h3 data-i18n="card1H">Todas las edades</h3>
+        <p data-i18n="card1P">Categorías desde Sub-6 hasta Sub-18, agrupadas por edad para un desarrollo acorde a cada etapa.</p>
       </div>
       <div class="info-card">
         <div class="icon">👨‍👩‍👧‍👦</div>
-        <h3>Comunidad homeschool</h3>
-        <p>Un espacio pensado por y para familias que educan en casa, con horarios matutinos que no compiten con la rutina escolar tradicional.</p>
+        <h3 data-i18n="card2H">Comunidad homeschool</h3>
+        <p data-i18n="card2P">Un espacio pensado por y para familias que educan en casa, con horarios matutinos que no compiten con la rutina escolar tradicional.</p>
       </div>
       <div class="info-card">
         <div class="icon">📍</div>
-        <h3>Miramar, FL</h3>
-        <p>Entrenamos en Miramar Regional Park — fácil acceso para familias de Miramar y ciudades cercanas de Broward County.</p>
+        <h3 data-i18n="card3H">Miramar, FL</h3>
+        <p data-i18n="card3P">Entrenamos en Miramar Regional Park — fácil acceso para familias de Miramar y ciudades cercanas de Broward County.</p>
       </div>
     </div>
   </div>
@@ -297,21 +303,20 @@
 <section class="alt" id="horario">
   <div class="wrap">
     <div class="section-head">
-      <div class="eyebrow">Horario y precios</div>
-      <h2>Cómo funciona la temporada</h2>
-      <p>Lunes y Miércoles, 9:30 AM – 10:30 AM · Miramar Regional Park</p>
+      <div class="eyebrow" data-i18n="horarioEyebrow">Horario y precios</div>
+      <h2 data-i18n="horarioH2">Cómo funciona la temporada</h2>
+      <p data-i18n="horarioP">Lunes y Miércoles, 9:30 AM – 10:30 AM · Miramar Regional Park</p>
     </div>
     <div class="pricing-grid">
       <div class="price-card featured">
         <div class="amount">$160</div>
-        <div class="label">Inscripción anual<br>(incluye uniforme, pago único)</div>
+        <div class="label" data-i18n="precio1">Inscripción anual<br>(incluye uniforme, pago único)</div>
       </div>
       <div class="price-card">
         <div class="amount">$160</div>
-        <div class="label">Mensualidad</div>
+        <div class="label" data-i18n="precio2">Mensualidad</div>
       </div>
     </div>
-    <div class="payment-note">💳 Pago por <b>Zelle</b> a <b>954-918-0916</b> (Homeschool Soccer LLC)</div>
   </div>
 </section>
 
@@ -319,23 +324,23 @@
 <section id="contacto">
   <div class="wrap">
     <div class="section-head">
-      <div class="eyebrow">Contacto</div>
-      <h2>¿Tenés preguntas?</h2>
+      <div class="eyebrow" data-i18n="contactoEyebrow">Contacto</div>
+      <h2 data-i18n="contactoH2">¿Tenés preguntas?</h2>
     </div>
     <div class="contact-grid">
       <div class="contact-item">
         <div class="icon">📱</div>
-        <div class="label">WhatsApp / Teléfono</div>
+        <div class="label" data-i18n="contactoLabel1">WhatsApp / Teléfono</div>
         <div class="value">954-918-0916</div>
       </div>
       <div class="contact-item">
         <div class="icon">📧</div>
-        <div class="label">Email</div>
+        <div class="label" data-i18n="contactoLabel2">Email</div>
         <div class="value">homeschoolsoccerfl@gmail.com</div>
       </div>
       <div class="contact-item">
         <div class="icon">📍</div>
-        <div class="label">Ubicación</div>
+        <div class="label" data-i18n="contactoLabel3">Ubicación</div>
         <div class="value">Miramar Regional Park, FL</div>
       </div>
     </div>
@@ -347,9 +352,9 @@
   <section class="portal-section" id="calendario-familias">
     <div class="wrap">
       <div class="section-head">
-        <div class="eyebrow">Portal de familias</div>
-        <h2>Fechas sin práctica por feriado</h2>
-        <p>Temporada 3 de agosto de 2026 al 31 de mayo de 2027 — Lunes y Miércoles, salvo estas fechas:</p>
+        <div class="eyebrow" data-i18n="portalEyebrow">Portal de familias</div>
+        <h2 data-i18n="calH2">Fechas sin práctica por feriado</h2>
+        <p data-i18n="calP">Temporada 3 de agosto de 2026 al 31 de mayo de 2027 — Lunes y Miércoles, salvo estas fechas:</p>
       </div>
       <div class="cal-list" id="feriadosPortal"></div>
     </div>
@@ -358,25 +363,25 @@
   <section class="portal-section" id="practica-familias">
     <div class="wrap">
       <div class="section-head">
-        <div class="eyebrow">Para los jugadores</div>
-        <h2>⚽ Zona de Práctica</h2>
-        <p>Trivia y desafíos para practicar en casa cuando tengan un rato libre.</p>
+        <div class="eyebrow" data-i18n="practicaEyebrow">Para los jugadores</div>
+        <h2 data-i18n="practicaH2">⚽ Zona de Práctica</h2>
+        <p data-i18n="practicaP">Trivia y desafíos para practicar en casa cuando tengan un rato libre.</p>
       </div>
 
       <div class="jugador-selector" id="jugadorSelector">
-        <p style="color:rgba(251,248,243,0.85);font-size:13.5px;margin-bottom:12px;">Elegí quién sos para guardar tu progreso:</p>
+        <p style="color:rgba(251,248,243,0.85);font-size:13.5px;margin-bottom:12px;" data-i18n="elegirJugador">Elegí quién sos para guardar tu progreso:</p>
         <select id="selectJugador" class="full" style="max-width:320px;margin:0 auto;display:block;"></select>
       </div>
 
       <div id="practicaContenido" style="display:none;">
         <div class="progreso-box" id="progresoBox"></div>
         <p style="text-align:center;margin-bottom:16px;">
-          <a href="#" onclick="cambiarJugador();return false;" style="color:var(--gold-soft);font-size:12px;text-decoration:underline;">Cambiar jugador</a>
+          <a href="#" onclick="cambiarJugador();return false;" style="color:var(--gold-soft);font-size:12px;text-decoration:underline;" data-i18n="cambiarJugador">Cambiar jugador</a>
         </p>
 
         <div class="practica-tabs">
-          <button class="practica-tab active" data-ptab="trivia" onclick="cambiarPracticaTab('trivia')">🧠 Trivia</button>
-          <button class="practica-tab" data-ptab="retos" onclick="cambiarPracticaTab('retos')">🏆 Retos</button>
+          <button class="practica-tab active" data-ptab="trivia" onclick="cambiarPracticaTab('trivia')">🧠 <span data-i18n="tabTrivia">Trivia</span></button>
+          <button class="practica-tab" data-ptab="retos" onclick="cambiarPracticaTab('retos')">🏆 <span data-i18n="tabRetos">Retos</span></button>
         </div>
 
         <div class="practica-panel active" id="ppanel-trivia">
@@ -393,29 +398,29 @@
   <section id="reportes-familias">
     <div class="wrap">
       <div class="section-head">
-        <div class="eyebrow">Novedades</div>
-        <h2>Reportes de la academia</h2>
+        <div class="eyebrow" data-i18n="novedadesEyebrow">Novedades</div>
+        <h2 data-i18n="novedadesH2">Reportes de la academia</h2>
       </div>
-      <div class="reportes-box">
+      <div class="reportes-box" data-i18n="reportesTexto">
         Próximamente vamos a compartir acá novedades de la temporada, fotos y logros del equipo. ⚽
       </div>
     </div>
   </section>
 </div>
 
-<button id="logoutBtn" onclick="cerrarPortal()">🔒 Salir del portal</button>
+<button id="logoutBtn" onclick="cerrarPortal()">🔒 <span data-i18n="salirPortal">Salir del portal</span></button>
 
 <!-- MODAL LOGIN -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal-box">
     <div class="icon">🔒</div>
-    <h3>Portal de Familias</h3>
-    <p>Ingresá la contraseña que te compartió la academia para ver el calendario y las novedades.</p>
+    <h3 data-i18n="navPortal">Portal de Familias</h3>
+    <p data-i18n="modalP">Ingresá la contraseña que te compartió la academia para ver el calendario y las novedades.</p>
     <input type="password" id="passwordInput" placeholder="Contraseña" autocomplete="off">
-    <div class="err" id="passwordErr">Contraseña incorrecta, probá de nuevo.</div>
+    <div class="err" id="passwordErr" data-i18n="modalErr">Contraseña incorrecta, probá de nuevo.</div>
     <div class="actions">
-      <button class="btn ghost" onclick="cerrarModal()">Cancelar</button>
-      <button class="btn gold" onclick="verificarPassword()">Entrar</button>
+      <button class="btn ghost" onclick="cerrarModal()" data-i18n="modalCancelar">Cancelar</button>
+      <button class="btn gold" onclick="verificarPassword()" data-i18n="modalEntrar">Entrar</button>
     </div>
   </div>
 </div>
@@ -427,6 +432,93 @@
 <script>
 // Contraseña compartida del portal de familias — cambiala acá cuando quieras.
 const PORTAL_PASSWORD = 'cancha2026';
+
+// ── Traducciones ──
+let currentLang = 'es';
+const translations = {
+  es: {
+    navSobre:'Sobre Nosotros', navHorario:'Horario y Precios', navContacto:'Contacto', navPortal:'Portal de Familias',
+    heroBadge:'Temporada 2026–2027',
+    heroSub:'Fútbol para chicos de familias homeschool en Miramar, Florida. Un espacio para aprender, jugar y crecer en equipo — lunes y miércoles, en Miramar Regional Park.',
+    heroCta1:'Inscribite ahora',
+    sobreEyebrow:'Sobre nosotros', sobreH2:'Fútbol pensado para familias homeschool',
+    sobreP:'Homeschool Soccer LLC ofrece un espacio de entrenamiento y comunidad para chicos de 4 a 18 años cuyas familias educan en casa — con horarios pensados para encajar en el día de una familia homeschool.',
+    card1H:'Todas las edades', card1P:'Categorías desde Sub-6 hasta Sub-18, agrupadas por edad para un desarrollo acorde a cada etapa.',
+    card2H:'Comunidad homeschool', card2P:'Un espacio pensado por y para familias que educan en casa, con horarios matutinos que no compiten con la rutina escolar tradicional.',
+    card3H:'Miramar, FL', card3P:'Entrenamos en Miramar Regional Park — fácil acceso para familias de Miramar y ciudades cercanas de Broward County.',
+    horarioEyebrow:'Horario y precios', horarioH2:'Cómo funciona la temporada', horarioP:'Lunes y Miércoles, 9:30 AM – 10:30 AM · Miramar Regional Park',
+    precio1:'Inscripción anual<br>(incluye uniforme, pago único)', precio2:'Mensualidad',
+    contactoEyebrow:'Contacto', contactoH2:'¿Tenés preguntas?',
+    contactoLabel1:'WhatsApp / Teléfono', contactoLabel2:'Email', contactoLabel3:'Ubicación',
+    portalEyebrow:'Portal de familias', calH2:'Fechas sin práctica por feriado',
+    calP:'Temporada 3 de agosto de 2026 al 31 de mayo de 2027 — Lunes y Miércoles, salvo estas fechas:',
+    practicaEyebrow:'Para los jugadores', practicaH2:'⚽ Zona de Práctica', practicaP:'Trivia y desafíos para practicar en casa cuando tengan un rato libre.',
+    elegirJugador:'Elegí quién sos para guardar tu progreso:', elegirNombre:'Elegí tu nombre...',
+    cambiarJugador:'Cambiar jugador', tabTrivia:'Trivia', tabRetos:'Retos',
+    puntosLbl:'Puntos de trivia', retosLbl:'Retos completados',
+    retoHecho:'✔ Completado', retoTocar:'Tocar para marcar',
+    siguienteTrivia:'Siguiente →',
+    novedadesEyebrow:'Novedades', novedadesH2:'Reportes de la academia',
+    reportesTexto:'Próximamente vamos a compartir acá novedades de la temporada, fotos y logros del equipo. ⚽',
+    salirPortal:'Salir del portal',
+    modalP:'Ingresá la contraseña que te compartió la academia para ver el calendario y las novedades.',
+    modalErr:'Contraseña incorrecta, probá de nuevo.', modalCancelar:'Cancelar', modalEntrar:'Entrar',
+  },
+  en: {
+    navSobre:'About Us', navHorario:'Schedule & Pricing', navContacto:'Contact', navPortal:'Family Portal',
+    heroBadge:'Season 2026–2027',
+    heroSub:'Soccer for homeschool kids in Miramar, Florida. A place to learn, play, and grow as a team — Mondays and Wednesdays, at Miramar Regional Park.',
+    heroCta1:'Register now',
+    sobreEyebrow:'About us', sobreH2:'Soccer built for homeschool families',
+    sobreP:'Homeschool Soccer LLC offers a training and community space for kids ages 4 to 18 whose families homeschool — with schedules designed to fit a homeschool family\'s day.',
+    card1H:'All ages welcome', card1P:'Categories from Sub-6 through Sub-18, grouped by age for development suited to each stage.',
+    card2H:'Homeschool community', card2P:'A space built by and for homeschool families, with morning schedules that don\'t compete with a traditional school day.',
+    card3H:'Miramar, FL', card3P:'We train at Miramar Regional Park — easy access for families in Miramar and nearby Broward County cities.',
+    horarioEyebrow:'Schedule & pricing', horarioH2:'How the season works', horarioP:'Monday & Wednesday, 9:30 AM – 10:30 AM · Miramar Regional Park',
+    precio1:'Annual registration<br>(uniform included, one-time)', precio2:'Monthly fee',
+    contactoEyebrow:'Contact', contactoH2:'Have questions?',
+    contactoLabel1:'WhatsApp / Phone', contactoLabel2:'Email', contactoLabel3:'Location',
+    portalEyebrow:'Family portal', calH2:'Dates with no practice due to holidays',
+    calP:'Season August 3, 2026 to May 31, 2027 — Monday & Wednesday, except these dates:',
+    practicaEyebrow:'For players', practicaH2:'⚽ Practice Zone', practicaP:'Trivia and challenges to practice at home in your free time.',
+    elegirJugador:'Choose who you are to save your progress:', elegirNombre:'Choose your name...',
+    cambiarJugador:'Switch player', tabTrivia:'Trivia', tabRetos:'Challenges',
+    puntosLbl:'Trivia points', retosLbl:'Challenges completed',
+    retoHecho:'✔ Completed', retoTocar:'Tap to mark',
+    siguienteTrivia:'Next →',
+    novedadesEyebrow:'News', novedadesH2:'Academy reports',
+    reportesTexto:'Coming soon: season updates, photos, and team highlights. ⚽',
+    salirPortal:'Exit portal',
+    modalP:'Enter the password the academy shared with you to see the calendar and updates.',
+    modalErr:'Incorrect password, try again.', modalCancelar:'Cancel', modalEntrar:'Enter',
+  }
+};
+
+function applyTranslations(lang){
+  const t = translations[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key = el.dataset.i18n;
+    if(t[key] === undefined) return;
+    if(key === 'precio1' || key === 'reportesTexto') el.innerHTML = t[key];
+    else el.textContent = t[key];
+  });
+  document.getElementById('langBtnText').textContent = lang === 'es' ? 'EN' : 'ES';
+  document.getElementById('passwordInput').placeholder = lang === 'es' ? 'Contraseña' : 'Password';
+  document.documentElement.lang = lang;
+  renderFeriadosPortal();
+  if(document.getElementById('practicaContenido').style.display !== 'none'){
+    renderProgreso();
+    triviaOrden = [];
+    triviaIdx = 0;
+    renderTrivia();
+    renderRetos();
+  }
+}
+
+function toggleLang(){
+  currentLang = currentLang === 'es' ? 'en' : 'es';
+  applyTranslations(currentLang);
+}
 
 function abrirModal(){
   document.getElementById('modalOverlay').classList.add('open');
@@ -463,19 +555,14 @@ function cerrarPortal(){
 
 // ── Feriados de la temporada (mismo calendario que la app de Asistencia) ──
 const FERIADOS = [
-  { start: new Date(2026,8,7),   end: new Date(2026,8,7),   nombre: 'Labor Day' },
-  { start: new Date(2026,8,22),  end: new Date(2026,8,23),  nombre: 'Rosh Hashaná' },
-  { start: new Date(2026,9,1),   end: new Date(2026,9,1),   nombre: 'Yom Kipur' },
-  { start: new Date(2026,9,12),  end: new Date(2026,9,12),  nombre: 'Día de planificación docente' },
-  { start: new Date(2026,10,10), end: new Date(2026,10,11), nombre: 'Día docente + Veterans Day' },
-  { start: new Date(2026,10,23), end: new Date(2026,10,27), nombre: 'Receso de Acción de Gracias' },
-  { start: new Date(2026,11,21), end: new Date(2027,0,1),   nombre: 'Receso de invierno' },
-  { start: new Date(2027,0,4),   end: new Date(2027,0,4),   nombre: 'Día de planificación docente' },
-  { start: new Date(2027,0,18),  end: new Date(2027,0,18),  nombre: 'Día de Martin Luther King Jr.' },
-  { start: new Date(2027,1,15),  end: new Date(2027,1,16),  nombre: "Presidents' Day + día docente" },
-  { start: new Date(2027,2,19),  end: new Date(2027,2,19),  nombre: 'Día de planificación docente' },
-  { start: new Date(2027,2,22),  end: new Date(2027,2,26),  nombre: 'Receso de primavera' },
-  { start: new Date(2027,4,31),  end: new Date(2027,4,31),  nombre: 'Memorial Day' },
+  { start: new Date(2026,8,7),   end: new Date(2026,8,7),   nombre: 'Labor Day', nombreEn: 'Labor Day' },
+  { start: new Date(2026,9,1),   end: new Date(2026,9,1),   nombre: 'Yom Kipur', nombreEn: 'Yom Kippur' },
+  { start: new Date(2026,10,11), end: new Date(2026,10,11), nombre: 'Veterans Day', nombreEn: 'Veterans Day' },
+  { start: new Date(2026,10,23), end: new Date(2026,10,27), nombre: 'Receso de Acción de Gracias', nombreEn: 'Thanksgiving Break' },
+  { start: new Date(2026,11,21), end: new Date(2027,0,1),   nombre: 'Receso de invierno', nombreEn: 'Winter Break' },
+  { start: new Date(2027,0,18),  end: new Date(2027,0,18),  nombre: 'Día de Martin Luther King Jr.', nombreEn: 'Martin Luther King Jr. Day' },
+  { start: new Date(2027,1,15),  end: new Date(2027,1,15),  nombre: "Presidents' Day", nombreEn: "Presidents' Day" },
+  { start: new Date(2027,4,31),  end: new Date(2027,4,31),  nombre: 'Memorial Day', nombreEn: 'Memorial Day' },
 ];
 const SEASON_START = new Date(2026,7,3);
 const SEASON_END = new Date(2027,4,31);
@@ -483,7 +570,10 @@ const SEASON_END = new Date(2027,4,31);
 function sameOrBetween(d,s,e){ const t=d.getTime(); return t>=s.getTime() && t<=e.getTime(); }
 function feriadoEnFecha(d){ return FERIADOS.find(f=>sameOrBetween(d,f.start,f.end)) || null; }
 function esPractica(d){ const day=d.getDay(); return day===1||day===3; }
-function fmtFecha(d){ return d.toLocaleDateString('es-AR',{weekday:'short', day:'2-digit', month:'2-digit'}); }
+function fmtFecha(d){
+  const locale = currentLang === 'es' ? 'es-AR' : 'en-US';
+  return d.toLocaleDateString(locale,{weekday:'short', day:'2-digit', month:'2-digit'});
+}
 
 function renderFeriadosPortal(){
   const afectadas = [];
@@ -491,7 +581,7 @@ function renderFeriadosPortal(){
   while(cursor.getTime() <= SEASON_END.getTime()){
     if(esPractica(cursor)){
       const f = feriadoEnFecha(cursor);
-      if(f) afectadas.push({fecha:new Date(cursor), nombre:f.nombre});
+      if(f) afectadas.push({fecha:new Date(cursor), nombre: currentLang==='es' ? f.nombre : f.nombreEn});
     }
     cursor.setDate(cursor.getDate()+1);
   }
@@ -567,7 +657,7 @@ async function cargarDatosPractica(){
 function poblarSelectorJugador(){
   const sel = document.getElementById('selectJugador');
   const ordenados = [...jugadoresList].sort((a,b)=>a.nombre.localeCompare(b.nombre));
-  sel.innerHTML = '<option value="">Elegí tu nombre...</option>' +
+  sel.innerHTML = '<option value="">' + translations[currentLang].elegirNombre + '</option>' +
     ordenados.map(j => `<option value="${j.id}">${j.nombre}</option>`).join('');
   sel.addEventListener('change', ()=>{
     if(!sel.value) return;
@@ -625,9 +715,10 @@ async function guardarMiProgreso(){
 
 function renderProgreso(){
   const p = getMiProgreso();
+  const t = translations[currentLang];
   document.getElementById('progresoBox').innerHTML = `
-    <div class="progreso-item"><div class="num">${p.puntos}</div><div class="lbl">Puntos de trivia</div></div>
-    <div class="progreso-item"><div class="num">${p.retos.length}</div><div class="lbl">Retos completados</div></div>
+    <div class="progreso-item"><div class="num">${p.puntos}</div><div class="lbl">${t.puntosLbl}</div></div>
+    <div class="progreso-item"><div class="num">${p.retos.length}</div><div class="lbl">${t.retosLbl}</div></div>
   `;
 }
 
@@ -639,21 +730,36 @@ function cambiarPracticaTab(tab){
 
 // ── ZONA DE PRÁCTICA ──
 const TRIVIA = [
-  { pregunta:'¿Cuántos jugadores de campo (sin contar al arquero) tiene cada equipo en la cancha?', opciones:['9','10','11','8'], correcta:1, categoria:'Reglas', explicacion:'Cada equipo juega con 10 jugadores de campo más el arquero, 11 en total.' },
-  { pregunta:'¿Qué pasa si la pelota sale por completo por la línea de fondo, tocada última vez por el equipo defensor?', opciones:['Saque de esquina (córner)', 'Saque de arco', 'Lateral', 'Penal'], correcta:0, categoria:'Reglas', explicacion:'Si el último en tocarla fue el equipo que defiende esa línea, es córner para el equipo atacante.' },
-  { pregunta:'¿Cuánto dura un tiempo en un partido profesional de fútbol?', opciones:['30 minutos', '35 minutos', '45 minutos', '60 minutos'], correcta:2, categoria:'Reglas', explicacion:'Cada tiempo dura 45 minutos, con un entretiempo de descanso entre ambos.' },
-  { pregunta:'¿Cuál es la única posición que puede usar las manos dentro del área propia?', opciones:['Defensor central', 'Arquero', 'Lateral', 'Ninguna'], correcta:1, categoria:'Posiciones', explicacion:'El arquero es el único que puede usar las manos, y solo dentro de su propia área.' },
-  { pregunta:'¿Cómo se llama la posición que juega más cerca del arco rival, buscando marcar goles?', opciones:['Defensor', 'Mediocampista', 'Delantero', 'Lateral'], correcta:2, categoria:'Posiciones', explicacion:'El delantero (o "9") es quien juega más adelantado, buscando definir jugadas.' },
-  { pregunta:'¿Qué jugador conecta la defensa con el ataque, jugando en el medio de la cancha?', opciones:['Arquero', 'Mediocampista', 'Delantero', 'Líbero'], correcta:1, categoria:'Posiciones', explicacion:'El mediocampista recupera pelotas y arma el juego entre defensa y ataque.' },
-  { pregunta:'¿Qué significa "estar en fuera de juego" (offside)?', opciones:['Salir de la cancha sin permiso', 'Estar más adelantado que el último defensor al recibir el pase', 'Tocar la pelota con la mano', 'Hacer un pase muy largo'], correcta:1, categoria:'Táctica', explicacion:'Un jugador está offside si recibe el balón estando más cerca del arco rival que el penúltimo defensor.' },
-  { pregunta:'¿Qué es una "pared" en fútbol?', opciones:['Un tipo de arco', 'Un pase entre dos jugadores para superar a un rival', 'Una falta táctica', 'Una barrera en un tiro libre'], correcta:1, categoria:'Táctica', explicacion:'La pared (o "uno-dos") es cuando un jugador pasa la pelota a un compañero y la recibe de nuevo, sorteando a un rival.' },
-  { pregunta:'¿Qué formación se caracteriza por tener 4 defensores, 4 mediocampistas y 2 delanteros?', opciones:['4-3-3', '4-4-2', '3-5-2', '5-3-2'], correcta:1, categoria:'Táctica', explicacion:'La 4-4-2 es una de las formaciones clásicas más usadas en el fútbol.' },
-  { pregunta:'¿Con qué parte del cuerpo NO se puede tocar la pelota intencionalmente (salvo el arquero)?', opciones:['El pie', 'La cabeza', 'La mano', 'El pecho'], correcta:2, categoria:'Reglas', explicacion:'Tocar la pelota con la mano intencionalmente es falta, salvo para el arquero dentro de su área.' },
-  { pregunta:'¿Qué tarjeta significa que un jugador queda expulsado del partido?', opciones:['Amarilla', 'Roja', 'Verde', 'Azul'], correcta:1, categoria:'Reglas', explicacion:'La tarjeta roja expulsa al jugador; su equipo sigue el partido con uno menos.' },
-  { pregunta:'¿Cómo se llama el jugador que organiza la defensa y suele ser el más alto del equipo?', opciones:['Lateral', 'Defensor central', 'Volante ofensivo', 'Extremo'], correcta:1, categoria:'Posiciones', explicacion:'El defensor central lidera la línea defensiva y suele destacarse en el juego aéreo.' },
-  { pregunta:'¿Qué significa "presión alta" en el fútbol?', opciones:['Patear muy fuerte al arco', 'Presionar al rival cerca de su propio arco para recuperar la pelota', 'Jugar solo en defensa', 'Hacer muchos cambios en el partido'], correcta:1, categoria:'Táctica', explicacion:'La presión alta busca recuperar la pelota rápido, incomodando al rival cerca de su arco.' },
-  { pregunta:'¿Qué jugadores suelen ubicarse por las bandas (costados) de la cancha?', opciones:['Extremos/laterales', 'Arqueros', 'Defensores centrales', 'Ninguno'], correcta:0, categoria:'Posiciones', explicacion:'Los extremos y laterales juegan por las bandas, aportando ancho al equipo.' },
-  { pregunta:'¿Qué distancia mínima deben guardar los rivales en una barrera de tiro libre?', opciones:['3 metros', '5 metros', '9.15 metros', '15 metros'], correcta:2, categoria:'Reglas', explicacion:'La barrera debe estar a 9.15 metros (10 yardas) del balón en los tiros libres.' },
+  { pregunta:'¿Cuántos jugadores de campo (sin contar al arquero) tiene cada equipo en la cancha?', opciones:['9','10','11','8'], correcta:1, categoria:'Reglas', explicacion:'Cada equipo juega con 10 jugadores de campo más el arquero, 11 en total.',
+    preguntaEn:'How many field players (not counting the goalkeeper) does each team have on the pitch?', opcionesEn:['9','10','11','8'], categoriaEn:'Rules', explicacionEn:'Each team plays with 10 field players plus the goalkeeper, 11 in total.' },
+  { pregunta:'¿Qué pasa si la pelota sale por completo por la línea de fondo, tocada última vez por el equipo defensor?', opciones:['Saque de esquina (córner)', 'Saque de arco', 'Lateral', 'Penal'], correcta:0, categoria:'Reglas', explicacion:'Si el último en tocarla fue el equipo que defiende esa línea, es córner para el equipo atacante.',
+    preguntaEn:'What happens if the ball fully crosses the goal line, last touched by the defending team?', opcionesEn:['Corner kick', 'Goal kick', 'Throw-in', 'Penalty'], categoriaEn:'Rules', explicacionEn:'If the defending team touched it last, it\'s a corner kick for the attacking team.' },
+  { pregunta:'¿Cuánto dura un tiempo en un partido profesional de fútbol?', opciones:['30 minutos', '35 minutos', '45 minutos', '60 minutos'], correcta:2, categoria:'Reglas', explicacion:'Cada tiempo dura 45 minutos, con un entretiempo de descanso entre ambos.',
+    preguntaEn:'How long is one half in a professional soccer match?', opcionesEn:['30 minutes', '35 minutes', '45 minutes', '60 minutes'], categoriaEn:'Rules', explicacionEn:'Each half lasts 45 minutes, with a halftime break in between.' },
+  { pregunta:'¿Cuál es la única posición que puede usar las manos dentro del área propia?', opciones:['Defensor central', 'Arquero', 'Lateral', 'Ninguna'], correcta:1, categoria:'Posiciones', explicacion:'El arquero es el único que puede usar las manos, y solo dentro de su propia área.',
+    preguntaEn:'Which is the only position allowed to use hands inside its own penalty area?', opcionesEn:['Center back', 'Goalkeeper', 'Fullback', 'None'], categoriaEn:'Positions', explicacionEn:'The goalkeeper is the only one allowed to use hands, and only inside their own area.' },
+  { pregunta:'¿Cómo se llama la posición que juega más cerca del arco rival, buscando marcar goles?', opciones:['Defensor', 'Mediocampista', 'Delantero', 'Lateral'], correcta:2, categoria:'Posiciones', explicacion:'El delantero (o "9") es quien juega más adelantado, buscando definir jugadas.',
+    preguntaEn:'What is the position that plays closest to the opponent\'s goal, looking to score?', opcionesEn:['Defender', 'Midfielder', 'Forward', 'Fullback'], categoriaEn:'Positions', explicacionEn:'The forward (or "9") plays the most advanced role, looking to finish plays.' },
+  { pregunta:'¿Qué jugador conecta la defensa con el ataque, jugando en el medio de la cancha?', opciones:['Arquero', 'Mediocampista', 'Delantero', 'Líbero'], correcta:1, categoria:'Posiciones', explicacion:'El mediocampista recupera pelotas y arma el juego entre defensa y ataque.',
+    preguntaEn:'Which player connects defense and attack, playing in the middle of the field?', opcionesEn:['Goalkeeper', 'Midfielder', 'Forward', 'Sweeper'], categoriaEn:'Positions', explicacionEn:'The midfielder wins back the ball and builds play between defense and attack.' },
+  { pregunta:'¿Qué significa "estar en fuera de juego" (offside)?', opciones:['Salir de la cancha sin permiso', 'Estar más adelantado que el último defensor al recibir el pase', 'Tocar la pelota con la mano', 'Hacer un pase muy largo'], correcta:1, categoria:'Táctica', explicacion:'Un jugador está offside si recibe el balón estando más cerca del arco rival que el penúltimo defensor.',
+    preguntaEn:'What does "offside" mean?', opcionesEn:['Leaving the field without permission', 'Being ahead of the last defender when receiving the pass', 'Touching the ball with your hand', 'Making a very long pass'], categoriaEn:'Tactics', explicacionEn:'A player is offside if they receive the ball closer to the opponent\'s goal than the second-to-last defender.' },
+  { pregunta:'¿Qué es una "pared" en fútbol?', opciones:['Un tipo de arco', 'Un pase entre dos jugadores para superar a un rival', 'Una falta táctica', 'Una barrera en un tiro libre'], correcta:1, categoria:'Táctica', explicacion:'La pared (o "uno-dos") es cuando un jugador pasa la pelota a un compañero y la recibe de nuevo, sorteando a un rival.',
+    preguntaEn:'What is a "give-and-go" (wall pass) in soccer?', opcionesEn:['A type of goal', 'A pass between two players to beat an opponent', 'A tactical foul', 'A free kick wall'], categoriaEn:'Tactics', explicacionEn:'The give-and-go is when a player passes to a teammate and receives it back, beating a defender.' },
+  { pregunta:'¿Qué formación se caracteriza por tener 4 defensores, 4 mediocampistas y 2 delanteros?', opciones:['4-3-3', '4-4-2', '3-5-2', '5-3-2'], correcta:1, categoria:'Táctica', explicacion:'La 4-4-2 es una de las formaciones clásicas más usadas en el fútbol.',
+    preguntaEn:'Which formation has 4 defenders, 4 midfielders, and 2 forwards?', opcionesEn:['4-3-3', '4-4-2', '3-5-2', '5-3-2'], categoriaEn:'Tactics', explicacionEn:'4-4-2 is one of the classic formations most widely used in soccer.' },
+  { pregunta:'¿Con qué parte del cuerpo NO se puede tocar la pelota intencionalmente (salvo el arquero)?', opciones:['El pie', 'La cabeza', 'La mano', 'El pecho'], correcta:2, categoria:'Reglas', explicacion:'Tocar la pelota con la mano intencionalmente es falta, salvo para el arquero dentro de su área.',
+    preguntaEn:'Which body part can NOT intentionally touch the ball (except for the goalkeeper)?', opcionesEn:['The foot', 'The head', 'The hand', 'The chest'], categoriaEn:'Rules', explicacionEn:'Intentionally touching the ball with your hand is a foul, except for the goalkeeper inside their area.' },
+  { pregunta:'¿Qué tarjeta significa que un jugador queda expulsado del partido?', opciones:['Amarilla', 'Roja', 'Verde', 'Azul'], correcta:1, categoria:'Reglas', explicacion:'La tarjeta roja expulsa al jugador; su equipo sigue el partido con uno menos.',
+    preguntaEn:'Which card means a player is sent off the match?', opcionesEn:['Yellow', 'Red', 'Green', 'Blue'], categoriaEn:'Rules', explicacionEn:'A red card sends the player off; their team continues the match with one fewer player.' },
+  { pregunta:'¿Cómo se llama el jugador que organiza la defensa y suele ser el más alto del equipo?', opciones:['Lateral', 'Defensor central', 'Volante ofensivo', 'Extremo'], correcta:1, categoria:'Posiciones', explicacion:'El defensor central lidera la línea defensiva y suele destacarse en el juego aéreo.',
+    preguntaEn:'What is the player called who organizes the defense and is usually the tallest on the team?', opcionesEn:['Fullback', 'Center back', 'Attacking midfielder', 'Winger'], categoriaEn:'Positions', explicacionEn:'The center back leads the defensive line and usually stands out in aerial play.' },
+  { pregunta:'¿Qué significa "presión alta" en el fútbol?', opciones:['Patear muy fuerte al arco', 'Presionar al rival cerca de su propio arco para recuperar la pelota', 'Jugar solo en defensa', 'Hacer muchos cambios en el partido'], correcta:1, categoria:'Táctica', explicacion:'La presión alta busca recuperar la pelota rápido, incomodando al rival cerca de su arco.',
+    preguntaEn:'What does "high press" mean in soccer?', opcionesEn:['Kicking the ball very hard toward goal', 'Pressuring the opponent near their own goal to win back the ball', 'Playing only in defense', 'Making many substitutions'], categoriaEn:'Tactics', explicacionEn:'The high press aims to win the ball back quickly by pressuring the opponent near their own goal.' },
+  { pregunta:'¿Qué jugadores suelen ubicarse por las bandas (costados) de la cancha?', opciones:['Extremos/laterales', 'Arqueros', 'Defensores centrales', 'Ninguno'], correcta:0, categoria:'Posiciones', explicacion:'Los extremos y laterales juegan por las bandas, aportando ancho al equipo.',
+    preguntaEn:'Which players usually play out wide on the sides of the field?', opcionesEn:['Wingers/fullbacks', 'Goalkeepers', 'Center backs', 'None'], categoriaEn:'Positions', explicacionEn:'Wingers and fullbacks play out wide, giving the team width.' },
+  { pregunta:'¿Qué distancia mínima deben guardar los rivales en una barrera de tiro libre?', opciones:['3 metros', '5 metros', '9.15 metros', '15 metros'], correcta:2, categoria:'Reglas', explicacion:'La barrera debe estar a 9.15 metros (10 yardas) del balón en los tiros libres.',
+    preguntaEn:'What minimum distance must opponents keep in a free kick wall?', opcionesEn:['3 meters', '5 meters', '9.15 meters', '15 meters'], categoriaEn:'Rules', explicacionEn:'The wall must be 9.15 meters (10 yards) from the ball on free kicks.' },
 ];
 
 let triviaIdx = 0;
@@ -672,20 +778,25 @@ function renderTrivia(){
   if(triviaOrden.length === 0) triviaOrden = shuffle(TRIVIA.map((_,i)=>i));
   if(triviaIdx >= triviaOrden.length) triviaIdx = 0;
   const q = TRIVIA[triviaOrden[triviaIdx]];
+  const t = translations[currentLang];
+  const esES = currentLang === 'es';
   const card = document.getElementById('triviaCard');
   card.innerHTML = `
-    <span class="cat-tag">${q.categoria}</span>
-    <h3>${q.pregunta}</h3>
+    <span class="cat-tag">${esES ? q.categoria : q.categoriaEn}</span>
+    <h3>${esES ? q.pregunta : q.preguntaEn}</h3>
     <div class="trivia-opciones">
-      ${q.opciones.map((op,i)=>`<button class="trivia-opcion" onclick="responderTrivia(${i})">${op}</button>`).join('')}
+      ${(esES ? q.opciones : q.opcionesEn).map((op,i)=>`<button class="trivia-opcion" onclick="responderTrivia(${i})">${op}</button>`).join('')}
     </div>
     <div class="trivia-feedback" id="triviaFeedback"></div>
-    <div class="trivia-nav"><button class="btn gold" id="btnSiguienteTrivia" style="display:none;" onclick="siguienteTrivia()">Siguiente →</button></div>
+    <div class="trivia-nav"><button class="btn gold" id="btnSiguienteTrivia" style="display:none;" onclick="siguienteTrivia()">${t.siguienteTrivia}</button></div>
   `;
 }
 
 function responderTrivia(i){
   const q = TRIVIA[triviaOrden[triviaIdx]];
+  const esES = currentLang === 'es';
+  const opciones = esES ? q.opciones : q.opcionesEn;
+  const explicacion = esES ? q.explicacion : q.explicacionEn;
   const botones = document.querySelectorAll('.trivia-opcion');
   botones.forEach((b,idx)=>{
     b.disabled = true;
@@ -695,7 +806,7 @@ function responderTrivia(i){
   const fb = document.getElementById('triviaFeedback');
   fb.classList.add('show');
   if(i === q.correcta){
-    fb.textContent = '✅ ¡Correcto! ' + q.explicacion;
+    fb.textContent = (esES ? '✅ ¡Correcto! ' : '✅ Correct! ') + explicacion;
     if(jugadorActual){
       if(!progresoData[jugadorActual.id]) progresoData[jugadorActual.id] = {puntos:0, retos:[]};
       progresoData[jugadorActual.id].puntos += 10;
@@ -703,7 +814,9 @@ function responderTrivia(i){
       guardarMiProgreso();
     }
   } else {
-    fb.textContent = '❌ La respuesta correcta era "' + q.opciones[q.correcta] + '". ' + q.explicacion;
+    fb.textContent = (esES
+      ? '❌ La respuesta correcta era "' + opciones[q.correcta] + '". '
+      : '❌ The correct answer was "' + opciones[q.correcta] + '". ') + explicacion;
   }
   document.getElementById('btnSiguienteTrivia').style.display = 'inline-flex';
 }
@@ -714,26 +827,29 @@ function siguienteTrivia(){
 }
 
 const RETOS = [
-  { icon:'⚽', titulo:'10 toques seguidos', desc:'Hacé jueguito con la pelota — 10 toques seguidos sin que caiga al piso.' },
-  { icon:'🎯', titulo:'5 conos en 15 segundos', desc:'Armá 5 conos (o botellas) en fila y driblealos lo más rápido posible.' },
-  { icon:'🏃', titulo:'Carrera con pelota', desc:'Conducí la pelota corriendo 20 metros ida y vuelta, sin perder el control.' },
-  { icon:'🥅', titulo:'10 tiros al arco', desc:'Practicá 10 remates al arco (o a un objetivo marcado en una pared).' },
-  { icon:'👟', titulo:'Pase con las dos piernas', desc:'Practicá pases contra una pared, alternando pierna derecha e izquierda.' },
-  { icon:'🔄', titulo:'Giros con pelota', desc:'Practicá 5 giros distintos (con la planta, taco, etc.) sin perder el control.' },
-  { icon:'🧠', titulo:'Mirá un partido y contá pases', desc:'Mirá 10 minutos de un partido y contá cuántos pases seguidos hace un equipo.' },
-  { icon:'🤸', titulo:'Cabezazos suaves', desc:'Practicá 10 cabezazos suaves con alguien que te tire la pelota con la mano.' },
+  { icon:'⚽', tituloEs:'10 toques seguidos', descEs:'Hacé jueguito con la pelota — 10 toques seguidos sin que caiga al piso.', tituloEn:'10 juggles in a row', descEn:'Juggle the ball — 10 touches in a row without it hitting the ground.' },
+  { icon:'🎯', tituloEs:'5 conos en 15 segundos', descEs:'Armá 5 conos (o botellas) en fila y driblealos lo más rápido posible.', tituloEn:'5 cones in 15 seconds', descEn:'Set up 5 cones (or bottles) in a row and dribble through them as fast as you can.' },
+  { icon:'🏃', tituloEs:'Carrera con pelota', descEs:'Conducí la pelota corriendo 20 metros ida y vuelta, sin perder el control.', tituloEn:'Dribbling sprint', descEn:'Dribble the ball 20 meters there and back without losing control.' },
+  { icon:'🥅', tituloEs:'10 tiros al arco', descEs:'Practicá 10 remates al arco (o a un objetivo marcado en una pared).', tituloEn:'10 shots on goal', descEn:'Practice 10 shots on a goal (or a target marked on a wall).' },
+  { icon:'👟', tituloEs:'Pase con las dos piernas', descEs:'Practicá pases contra una pared, alternando pierna derecha e izquierda.', tituloEn:'Two-footed passing', descEn:'Practice passing against a wall, alternating right and left foot.' },
+  { icon:'🔄', tituloEs:'Giros con pelota', descEs:'Practicá 5 giros distintos (con la planta, taco, etc.) sin perder el control.', tituloEn:'Ball turns', descEn:'Practice 5 different turns (sole roll, cruyff, etc.) without losing control.' },
+  { icon:'🧠', tituloEs:'Mirá un partido y contá pases', descEs:'Mirá 10 minutos de un partido y contá cuántos pases seguidos hace un equipo.', tituloEn:'Watch a match and count passes', descEn:'Watch 10 minutes of a match and count how many passes a team makes in a row.' },
+  { icon:'🤸', tituloEs:'Cabezazos suaves', descEs:'Practicá 10 cabezazos suaves con alguien que te tire la pelota con la mano.', tituloEn:'Soft headers', descEn:'Practice 10 soft headers with someone tossing you the ball by hand.' },
 ];
 
 function renderRetos(){
   const p = getMiProgreso();
+  const t = translations[currentLang];
   document.getElementById('retosGrid').innerHTML = RETOS.map((r,i)=>{
     const done = p.retos.includes(i);
+    const titulo = currentLang === 'es' ? r.tituloEs : r.tituloEn;
+    const desc = currentLang === 'es' ? r.descEs : r.descEn;
     return `
     <div class="reto-card ${done?'done':''}" onclick="toggleReto(${i})">
       <div class="reto-icon">${r.icon}</div>
-      <h4>${r.titulo}</h4>
-      <p>${r.desc}</p>
-      <div class="reto-check">${done ? '✔ Completado' : 'Tocar para marcar'}</div>
+      <h4>${titulo}</h4>
+      <p>${desc}</p>
+      <div class="reto-check">${done ? t.retoHecho : t.retoTocar}</div>
     </div>`;
   }).join('');
 }
